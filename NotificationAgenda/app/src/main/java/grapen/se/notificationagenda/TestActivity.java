@@ -1,19 +1,17 @@
 package grapen.se.notificationagenda;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
-import grapen.se.notificationagenda.calendar.CalendarEvent;
+import grapen.se.notificationagenda.appcontext.AppContext;
+import grapen.se.notificationagenda.appcontext.AppContextActionBarActivity;
 import grapen.se.notificationagenda.calendar.CalendarRepository;
-import grapen.se.notificationagenda.calendar.androidcalendar.AndroidCalendarEvent;
-import grapen.se.notificationagenda.calendar.androidcalendar.AndroidCalendarRepository;
+import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
 
-public class TestActivity extends ActionBarActivity {
+public class TestActivity extends AppContextActionBarActivity {
+
+    private AppContext appContext = getAppContext();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +45,9 @@ public class TestActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        CalendarRepository calendarRepository = new AndroidCalendarRepository(getContentResolver());
-        ArrayList<CalendarEvent> events = calendarRepository.findAllEvents();
-        for (CalendarEvent event : events) {
-            Log.d("OLA", "Event: " + event.getDisplayName());
-        }
-        Log.d("Event", "Done");
+        CalendarRepository calendarRepository = appContext.getCalendarRepository(this);
+        NotificationProducer notificationProducer = appContext.getNotificationProducer(this);
+        NotificationAgendaController controller = new NotificationAgendaController(calendarRepository, notificationProducer);
+        controller.sendAgendaAsNotification();
     }
 }

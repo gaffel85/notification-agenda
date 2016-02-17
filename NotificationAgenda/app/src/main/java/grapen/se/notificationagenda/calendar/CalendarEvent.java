@@ -5,4 +5,8 @@ package grapen.se.notificationagenda.calendar;
  */
 public interface CalendarEvent {
     String getDisplayName();
+
+    CharSequence getStartDateFormatted();
+
+    long getId();
 }

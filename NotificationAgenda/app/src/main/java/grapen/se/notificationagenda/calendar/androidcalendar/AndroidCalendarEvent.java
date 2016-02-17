@@ -25,4 +25,14 @@ public class AndroidCalendarEvent implements CalendarEvent {
     public String getDisplayName() {
         return displayName;
     }
+
+    @Override
+    public CharSequence getStartDateFormatted() {
+        return "2016-03-17 24:00";
+    }
+
+    @Override
+    public long getId() {
+        return this.eventID;
+    }
 }

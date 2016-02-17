@@ -1,5 +1,9 @@
 package grapen.se.notificationagenda.calendar.androidcalendar;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import grapen.se.notificationagenda.calendar.CalendarEvent;
 
 /**
@@ -28,7 +32,28 @@ public class AndroidCalendarEvent implements CalendarEvent {
 
     @Override
     public CharSequence getStartDateFormatted() {
-        return "2016-03-17 24:00";
+        Date startDate = new Date(startTs);
+        
+        //TODO: Settings, date format
+        if (isDateToday(startDate)) {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            return timeFormat.format(startDate);
+        } else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            return dateFormat.format(startDate);
+        }
+    }
+
+    private boolean isDateToday(Date date) {
+        Calendar dateCalendar = Calendar.getInstance();
+        dateCalendar.setTime(date);
+        int dateDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
+
+        Date today = new Date(startTs);
+        Calendar todayCalendar = Calendar.getInstance();
+        todayCalendar.setTime(today);
+
+        return todayCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;
     }
 
     @Override

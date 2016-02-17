@@ -33,7 +33,7 @@ public class AndroidCalendarEvent implements CalendarEvent {
     @Override
     public CharSequence getStartDateFormatted() {
         Date startDate = new Date(startTs);
-        
+
         //TODO: Settings, date format
         if (isDateToday(startDate)) {
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");

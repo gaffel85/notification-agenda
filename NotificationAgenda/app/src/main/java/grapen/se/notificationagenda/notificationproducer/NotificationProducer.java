@@ -10,4 +10,6 @@ import grapen.se.notificationagenda.calendar.CalendarEvent;
 public interface NotificationProducer {
 
     public void produce(List<CalendarEvent> events);
+
+    int getIdForEvent(CalendarEvent event);
 }

@@ -8,6 +8,7 @@ import grapen.se.notificationagenda.appcontext.AppContext;
 import grapen.se.notificationagenda.appcontext.AppContextActionBarActivity;
 import grapen.se.notificationagenda.calendar.CalendarRepository;
 import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
+import grapen.se.notificationagenda.notificationstatus.NotificationStatusRegister;
 
 public class TestActivity extends AppContextActionBarActivity {
 
@@ -47,7 +48,10 @@ public class TestActivity extends AppContextActionBarActivity {
         super.onResume();
         CalendarRepository calendarRepository = appContext.getCalendarRepository(this);
         NotificationProducer notificationProducer = appContext.getNotificationProducer(this);
-        NotificationAgendaController controller = new NotificationAgendaController(calendarRepository, notificationProducer);
+        NotificationStatusRegister notificationStatusRegister = appContext.getNoficationStatusRegister(this);
+        NotificationAgendaController controller = new NotificationAgendaController(calendarRepository, notificationProducer, notificationStatusRegister);
         controller.sendAgendaAsNotification();
+
+        TimerManager.scheduleTimer(this);
     }
 }

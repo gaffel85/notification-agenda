@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import grapen.se.notificationagenda.R;
@@ -33,11 +34,16 @@ public class AndroidNotificationProducer implements NotificationProducer {
             builder.setContentText(event.getStartDateFormatted());
             builder.setSmallIcon(R.drawable.icon);
 
-            int notificationId = (int) event.getId();
+            int notificationId = getIdForEvent(event);
 
             notificationManager.notify(notificationId, builder.build());
         }
 
 
+    }
+
+    @Override
+    public int getIdForEvent(CalendarEvent event) {
+        return (int) event.getId();
     }
 }

@@ -6,6 +6,8 @@ import grapen.se.notificationagenda.calendar.CalendarRepository;
 import grapen.se.notificationagenda.calendar.androidcalendar.AndroidCalendarRepository;
 import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
 import grapen.se.notificationagenda.notificationproducer.androidnotification.AndroidNotificationProducer;
+import grapen.se.notificationagenda.notificationstatus.NotificationStatusRegister;
+import grapen.se.notificationagenda.notificationstatus.sharedpreference.SharedPreferenceNotificationStatusRegister;
 
 /**
  * Created by ola on 17/02/16.
@@ -28,6 +30,7 @@ public final class AppContext {
 
     private CalendarRepository calendarRepository;
     private NotificationProducer notificationProducer;
+    private NotificationStatusRegister notificationStatusRegister;
 
     public CalendarRepository getCalendarRepository(Context context) {
         if (calendarRepository == null) {
@@ -41,5 +44,12 @@ public final class AppContext {
             notificationProducer = new AndroidNotificationProducer(context);
         }
         return notificationProducer;
+    }
+
+    public NotificationStatusRegister getNoficationStatusRegister(Context context) {
+        if (notificationStatusRegister == null) {
+            notificationStatusRegister = new SharedPreferenceNotificationStatusRegister(context);
+        }
+        return notificationStatusRegister;
     }
 }

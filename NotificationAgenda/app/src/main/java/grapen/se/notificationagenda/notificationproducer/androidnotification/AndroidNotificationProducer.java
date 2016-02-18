@@ -32,7 +32,7 @@ public class AndroidNotificationProducer implements NotificationProducer {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(androidContext);
             builder.setContentTitle(event.getDisplayName());
             builder.setContentText(event.getStartDateFormatted());
-            builder.setSmallIcon(R.drawable.icon);
+            builder.setSmallIcon(R.drawable.notification_icon);
 
             int notificationId = getIdForEvent(event);
 

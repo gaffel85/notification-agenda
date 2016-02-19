@@ -21,7 +21,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="TimerManager" >
+        <receiver android:name=".TimerManager" >
+        </receiver>
+        <receiver android:name=".DismissNotificationReceiver" >
         </receiver>
         <receiver android:name=".BootReceiver" >
             <intent-filter>

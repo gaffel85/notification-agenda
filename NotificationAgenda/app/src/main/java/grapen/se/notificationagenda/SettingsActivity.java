@@ -42,8 +42,8 @@ public class SettingsActivity extends AppContextActivity {
     protected void onResume() {
         super.onResume();
 
-        //NotificationAgendaController controller = getAppContext().getNotificationAgendaController(this);
-        //controller.sendAgendaAsNotification();
+        NotificationAgendaController controller = getAppContext().getNotificationAgendaController(this);
+        controller.sendAgendaAsNotification();
 
         TimerManager.scheduleTimer(this, getAppContext().getAppConfig(this));
     }

@@ -9,6 +9,7 @@ import java.util.List;
 import grapen.se.notificationagenda.calendar.CalendarEvent;
 import grapen.se.notificationagenda.calendar.CalendarRepository;
 import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
+import grapen.se.notificationagenda.notificationproducer.androidnotification.EventNotification;
 import grapen.se.notificationagenda.notificationstatus.NotificationStatusRegister;
 
 /**
@@ -35,8 +36,8 @@ public class NotificationAgendaController {
     private List<CalendarEvent> filterDismissedEvents(List<CalendarEvent> events) {
         List<CalendarEvent> filteredEvents = new ArrayList<CalendarEvent>();
         for (CalendarEvent event : events) {
-            int notificationId = notificationProducer.getIdForEvent(event);
-            if (!notificationStatusRegister.isDismissed(notificationId)) {
+            EventNotification notification = new EventNotification(event);
+            if (!notificationStatusRegister.isDismissed(notification.getNotificationId())) {
                 filteredEvents.add(event);
             }
         }

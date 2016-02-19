@@ -1,14 +1,17 @@
 package grapen.se.notificationagenda.notificationproducer.androidnotification;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import grapen.se.notificationagenda.DismissNotificationReceiver;
 import grapen.se.notificationagenda.R;
 import grapen.se.notificationagenda.calendar.CalendarEvent;
 import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
@@ -29,21 +32,23 @@ public class AndroidNotificationProducer implements NotificationProducer {
         NotificationManager notificationManager = (NotificationManager) androidContext.getSystemService(androidContext.NOTIFICATION_SERVICE);
 
         for (CalendarEvent event : events) {
+            EventNotification notification = new EventNotification(event);
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(androidContext);
             builder.setContentTitle(event.getDisplayName());
             builder.setContentText(event.getStartDateFormatted());
             builder.setSmallIcon(R.drawable.notification_icon);
 
-            int notificationId = getIdForEvent(event);
+            Intent intent = new Intent(androidContext, DismissNotificationReceiver.class);
+            intent.putExtra(EventNotification.NOTIFICATION_DISMISS_INTENT_EXTRA_ID, notification.getNotificationId());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(androidContext, 0, intent, 0);
+            builder.setDeleteIntent(pendingIntent);
 
-            notificationManager.notify(notificationId, builder.build());
+            notificationManager.notify(notification.getNotificationId(), builder.build());
         }
 
 
     }
 
-    @Override
-    public int getIdForEvent(CalendarEvent event) {
-        return (int) event.getId();
-    }
+
 }

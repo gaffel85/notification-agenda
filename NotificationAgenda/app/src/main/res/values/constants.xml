@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="config_check_calendar_hour_key">config_check_calendar_hour_key</string>
+    <string name="config_check_calendar_min_key">config_check_calendar_min_key</string>
+</resources>

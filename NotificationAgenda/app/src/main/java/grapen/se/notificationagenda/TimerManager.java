@@ -14,6 +14,7 @@ import java.util.Calendar;
 import grapen.se.notificationagenda.appcontext.AppContext;
 import grapen.se.notificationagenda.appcontext.AppContextBroadcastReceiver;
 import grapen.se.notificationagenda.calendar.CalendarRepository;
+import grapen.se.notificationagenda.config.AppConfig;
 import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
 import grapen.se.notificationagenda.notificationstatus.NotificationStatusRegister;
 
@@ -24,10 +25,10 @@ public class TimerManager extends AppContextBroadcastReceiver {
 
     private static final String WAKE_LOCK_KEY = "TimerManagerWakeLock";
 
-    public static void scheduleTimer(Context context) {
+    public static void scheduleTimer(Context context, AppConfig config) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 3); // For 1 PM or 2 PM
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, config.runCalenderCheckAtHour()); // For 1 PM or 2 PM
+        calendar.set(Calendar.MINUTE, config.runCalenderCheckAtMin());
         calendar.set(Calendar.SECOND, 0);
 
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -40,13 +41,9 @@ public class TimerManager extends AppContextBroadcastReceiver {
     public void onReceive(Context context, Intent arg1) {
         PowerManager.WakeLock wakeLock = takeWakeLock(context);
 
-        AppContext appContext = getAppContext();
-        CalendarRepository calendarRepository = appContext.getCalendarRepository(context);
-        NotificationProducer notificationProducer = appContext.getNotificationProducer(context);
-        NotificationStatusRegister notificationStatusRegister = appContext.getNoficationStatusRegister(context);
-
-        NotificationAgendaController controller = new NotificationAgendaController(calendarRepository, notificationProducer, notificationStatusRegister);
+        NotificationAgendaController controller = getAppContext().getNotificationAgendaController(context);
         controller.sendAgendaAsNotification();
+
         releaseWakeLock(wakeLock);
     }
 

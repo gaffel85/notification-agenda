@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import grapen.se.notificationagenda.appcontext.AppContextActivity;
 import grapen.se.notificationagenda.controller.NotificationAgendaController;
-import grapen.se.notificationagenda.receivers.Alarm;
 import grapen.se.notificationagenda.receivers.TimerReceiver;
 import grapen.se.notificationagenda.scheduler.Scheduler;
 

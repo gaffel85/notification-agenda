@@ -9,7 +9,6 @@ import android.util.Log;
 import java.util.Calendar;
 
 import grapen.se.notificationagenda.config.AppConfig;
-import grapen.se.notificationagenda.receivers.Alarm;
 import grapen.se.notificationagenda.receivers.TimerReceiver;
 
 /**
@@ -24,14 +23,34 @@ public class Scheduler {
     }
 
     public void scheduleTimer(Context context, Class receiver) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, config.runCalenderCheckAtHour()); // For 1 PM or 2 PM
-        calendar.set(Calendar.MINUTE, config.runCalenderCheckAtMin());
-        calendar.set(Calendar.SECOND, 0);
+        Calendar firingCal = Calendar.getInstance();
+        firingCal.set(Calendar.HOUR_OF_DAY, config.runCalenderCheckAtHour()); // For 1 PM or 2 PM
+        firingCal.set(Calendar.MINUTE, config.runCalenderCheckAtMin());
+        firingCal.set(Calendar.SECOND, 0);
 
+        if (isInPast(firingCal)) {
+            firingCal.add(Calendar.HOUR_OF_DAY, 24);
+        }
+
+        cancelTimer(context, receiver);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, receiver);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        PendingIntent pendingIntent = createPendingIntent(context, receiver);
+        alarmManager.setRepeating(AlarmManager.RTC, firingCal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    private boolean isInPast(Calendar timeToCheck) {
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        return timeToCheck.getTimeInMillis() < currentTime;
+    }
+
+    private void cancelTimer(Context context, Class receiver)
+    {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(createPendingIntent(context, receiver));
+    }
+
+    private PendingIntent createPendingIntent(Context context, Class receiver) {
+        Intent intent = new Intent(context, receiver);
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 }

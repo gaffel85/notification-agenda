@@ -28,6 +28,15 @@ public class AndroidNotificationProducer implements NotificationProducer {
     public void produce(List<CalendarEvent> events) {
         NotificationManager notificationManager = (NotificationManager) androidContext.getSystemService(androidContext.NOTIFICATION_SERVICE);
 
+        if (events.isEmpty()) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(androidContext);
+            builder.setContentTitle("No Events");
+            builder.setSmallIcon(R.drawable.notification_icon);
+            notificationManager.notify(99999999, builder.build());
+
+            return;
+        }
+
         for (CalendarEvent event : events) {
             EventNotification notification = new EventNotification(event);
 

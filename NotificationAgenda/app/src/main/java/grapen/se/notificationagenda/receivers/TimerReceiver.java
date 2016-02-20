@@ -18,7 +18,7 @@ public class TimerReceiver extends AppContextBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent arg1) {
         PowerManager.WakeLock wakeLock = takeWakeLock(context);
-        Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
 
         NotificationAgendaController controller = getAppContext().getNotificationAgendaController(context);
         controller.sendAgendaAsNotification();

@@ -4,7 +4,6 @@ import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
@@ -13,10 +12,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import grapen.se.notificationagenda.appcontext.AppContextPreferenceFragment;
+import grapen.se.notificationagenda.receivers.TimerReceiver;
+
 /**
  * Created by ola on 19/02/16.
  */
-public class SettingsFragment extends PreferenceFragment implements TimePickerDialog.OnTimeSetListener {
+public class SettingsFragment extends AppContextPreferenceFragment implements TimePickerDialog.OnTimeSetListener {
 
     private Preference timePickerPref;
 
@@ -45,7 +47,10 @@ public class SettingsFragment extends PreferenceFragment implements TimePickerDi
     // TODO: 24h
     private void showTimeDialog(){
         boolean hour24 = DateFormat.is24HourFormat(getActivity());
-        new TimePickerDialog(getActivity(), this, 0, 0, hour24).show();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int hour = settings.getInt(getActivity().getString(R.string.config_check_calendar_hour_key), 3);
+        int min = settings.getInt(getActivity().getString(R.string.config_check_calendar_min_key), 0);
+        new TimePickerDialog(getActivity(), this, hour, min, hour24).show();
     }
 
     private void updateCheckTimeValue() {
@@ -75,6 +80,8 @@ public class SettingsFragment extends PreferenceFragment implements TimePickerDi
         editor.putInt(getActivity().getString(R.string.config_check_calendar_hour_key), hourOfDay);
         editor.putInt(getActivity().getString(R.string.config_check_calendar_min_key), minute);
         editor.commit();
+
+        getAppContext().getScheduler(getActivity()).scheduleTimer(getActivity(), TimerReceiver.class);
     }
 
 }

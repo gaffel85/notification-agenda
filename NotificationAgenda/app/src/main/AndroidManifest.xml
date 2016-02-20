@@ -21,11 +21,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".TimerManager" >
+        <receiver android:name=".receivers.TimerReceiver" >
         </receiver>
-        <receiver android:name=".DismissNotificationReceiver" >
+        <receiver android:name=".receivers.DismissNotificationReceiver" >
         </receiver>
-        <receiver android:name=".BootReceiver" >
+        <receiver android:name=".receivers.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

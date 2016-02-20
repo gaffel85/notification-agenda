@@ -2,16 +2,13 @@ package grapen.se.notificationagenda.notificationproducer.androidnotification;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import grapen.se.notificationagenda.DismissNotificationReceiver;
+import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
 import grapen.se.notificationagenda.R;
 import grapen.se.notificationagenda.calendar.CalendarEvent;
 import grapen.se.notificationagenda.notificationproducer.NotificationProducer;

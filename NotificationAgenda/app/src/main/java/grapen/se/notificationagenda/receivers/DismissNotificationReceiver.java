@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda;
+package grapen.se.notificationagenda.receivers;
 
 import android.content.Context;
 import android.content.Intent;

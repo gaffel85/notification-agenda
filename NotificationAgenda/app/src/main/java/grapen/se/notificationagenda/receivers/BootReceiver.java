@@ -1,6 +1,5 @@
-package grapen.se.notificationagenda;
+package grapen.se.notificationagenda.receivers;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
@@ -15,6 +14,6 @@ public class BootReceiver extends AppContextBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         AppConfig config = getAppContext().getAppConfig(context);
-        TimerManager.scheduleTimer(context, config);
+        getAppContext().getScheduler(context).scheduleTimer(context, TimerReceiver.class);
     }
 }

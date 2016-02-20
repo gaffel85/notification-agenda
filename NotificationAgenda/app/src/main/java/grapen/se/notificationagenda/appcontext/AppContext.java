@@ -2,7 +2,8 @@ package grapen.se.notificationagenda.appcontext;
 
 import android.content.Context;
 
-import grapen.se.notificationagenda.NotificationAgendaController;
+import grapen.se.notificationagenda.controller.NotificationAgendaController;
+import grapen.se.notificationagenda.scheduler.Scheduler;
 import grapen.se.notificationagenda.calendar.CalendarRepository;
 import grapen.se.notificationagenda.calendar.androidcalendar.AndroidCalendarRepository;
 import grapen.se.notificationagenda.config.AppConfig;
@@ -36,6 +37,7 @@ public final class AppContext {
     private NotificationStatusRegister notificationStatusRegister;
     private NotificationAgendaController notificationAgendaController;
     private AppConfig appConfig;
+    private Scheduler scheduler;
 
     public CalendarRepository getCalendarRepository(Context context) {
         if (calendarRepository == null) {
@@ -70,5 +72,12 @@ public final class AppContext {
             appConfig = new SharedPreferenceAppConfig(context);
         }
         return appConfig;
+    }
+
+    public Scheduler getScheduler(Context context) {
+        if (scheduler == null) {
+            scheduler = new Scheduler(getAppConfig(context));
+        }
+        return scheduler;
     }
 }

@@ -5,4 +5,8 @@ package grapen.se.notificationagenda.calendar;
  */
 public interface Calendar {
     long getId();
+
+    boolean isVisible();
+
+    String getName();
 }

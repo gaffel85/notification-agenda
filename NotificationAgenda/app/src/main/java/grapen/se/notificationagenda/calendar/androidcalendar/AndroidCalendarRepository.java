@@ -52,7 +52,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
 
     @Override
     public ArrayList<CalendarEvent> findAllEvents() {
-        ArrayList<Calendar> calendars = findAllCalendars();
+        ArrayList<Calendar> calendars = findVisibleCalendars();
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
         long now = System.currentTimeMillis();
         long tomorrow = now + 24*60*60*1000;
@@ -63,6 +63,18 @@ public class AndroidCalendarRepository implements CalendarRepository {
     }
 
     @Override
+    public ArrayList<Calendar> findVisibleCalendars() {
+        ArrayList<Calendar> visibleCalendars = new ArrayList<Calendar>();
+        ArrayList<Calendar> calendars = findAllCalendars();
+        for (Calendar calendar : calendars) {
+            if (calendar.isVisible()) {
+                visibleCalendars.add(calendar);
+            }
+        }
+        return visibleCalendars;
+    }
+
+    @Override
     public ArrayList<Calendar> findAllCalendars() {
         ArrayList<Calendar> calendars = new ArrayList<Calendar>();
         Cursor calendarCursor = null;
@@ -70,16 +82,11 @@ public class AndroidCalendarRepository implements CalendarRepository {
         calendarCursor = contentResolver.query(calendarURI, CALENDAR_PROJECTION, null, null, null);
 
         while (calendarCursor.moveToNext()) {
-            long calID = 0;
-
-            // Get the field values
-            calID = calendarCursor.getLong(CALENDAR_PROJECTION_ID_INDEX);
+            long calID = calendarCursor.getLong(CALENDAR_PROJECTION_ID_INDEX);
             boolean visible = calendarCursor.getInt(CALENDAR_PROJECTION_VISIBLE_INDEX) == 1;
             String name = calendarCursor.getString(CALENDAR_PROJECTION_NAME_INDEX);
 
-            if (visible) {
-                calendars.add(new AndroidCalendar(calID));
-            }
+            calendars.add(new AndroidCalendar(calID, visible, name));
         }
         return calendars;
     }

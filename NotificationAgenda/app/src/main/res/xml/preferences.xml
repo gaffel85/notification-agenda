@@ -5,11 +5,19 @@
     <PreferenceCategory
         android:title="Calendar Check">
 
+
+
         <Preference
             android:key="btnTimePicker"
             android:summary="Not set"
             android:title="Time to check calendar" />
 
     </PreferenceCategory>
+
+    <grapen.se.notificationagenda.CalendarListPreference
+        android:defaultValue="@array/pref_calendar_list_default"
+        android:key="multiSelectCalendar"
+        android:summary="Calendars to use"
+        android:title="Calendars"/>
 
 </PreferenceScreen>

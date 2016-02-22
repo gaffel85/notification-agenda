@@ -2,6 +2,7 @@ package grapen.se.notificationagenda;
 
 import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
@@ -11,6 +12,7 @@ import android.widget.TimePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import grapen.se.notificationagenda.appcontext.AppContextPreferenceFragment;
 import grapen.se.notificationagenda.receivers.TimerReceiver;
@@ -21,6 +23,7 @@ import grapen.se.notificationagenda.receivers.TimerReceiver;
 public class SettingsFragment extends AppContextPreferenceFragment implements TimePickerDialog.OnTimeSetListener {
 
     private Preference timePickerPref;
+    private CalendarListPreference calendarListPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,10 @@ public class SettingsFragment extends AppContextPreferenceFragment implements Ti
                 return false;
             }
         });
+
+        calendarListPref = (CalendarListPreference) findPreference("multiSelectCalendar");
+        CalendarFetcherTask task = new CalendarFetcherTask();
+        task.execute();
     }
 
     @Override
@@ -84,4 +91,19 @@ public class SettingsFragment extends AppContextPreferenceFragment implements Ti
         getAppContext().getScheduler(getActivity()).scheduleTimer(getActivity(), TimerReceiver.class);
     }
 
+    public class CalendarFetcherTask extends AsyncTask<Void, Void, List<grapen.se.notificationagenda.calendar.Calendar>> {
+
+        @Override
+        protected List<grapen.se.notificationagenda.calendar.Calendar> doInBackground(Void... params) {
+            return getAppContext().getCalendarRepository(getActivity()).findAllCalendars();
+        }
+
+        protected void onPostExecute(List<grapen.se.notificationagenda.calendar.Calendar> calendars) {
+            updateCalendarList(calendars);
+        }
+    }
+
+    private void updateCalendarList(List<grapen.se.notificationagenda.calendar.Calendar> calendars) {
+        calendarListPref.updateList(calendars);
+    }
 }

@@ -11,14 +11,28 @@ import grapen.se.notificationagenda.calendar.Calendar;
  */
 public class AndroidCalendar implements Calendar {
     private long id;
+    private boolean visible;
+    private String name;
 
-    public AndroidCalendar(long id) {
+    public AndroidCalendar(long id, boolean visible, String name) {
         this.id = id;
+        this.visible = visible;
+        this.name = name;
     }
 
     @Override
     public long getId() {
         return id;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return visible;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public List<AndroidCalendarEvent> fetchEvents(ContentResolver contentResolver) {

@@ -11,5 +11,8 @@ import grapen.se.notificationagenda.calendar.androidcalendar.AndroidCalendarEven
  */
 public interface CalendarRepository {
     ArrayList<CalendarEvent> findAllEvents();
+
+    ArrayList<Calendar> findVisibleCalendars();
+
     ArrayList<Calendar> findAllCalendars();
 }

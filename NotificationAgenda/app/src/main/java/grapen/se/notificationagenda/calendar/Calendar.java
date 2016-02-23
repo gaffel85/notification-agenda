@@ -9,4 +9,8 @@ public interface Calendar {
     boolean isVisible();
 
     String getName();
+
+    void setSelected();
+
+    boolean isSelected();
 }

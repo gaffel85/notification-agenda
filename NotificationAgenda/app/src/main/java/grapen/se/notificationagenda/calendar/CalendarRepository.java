@@ -1,18 +1,15 @@
 package grapen.se.notificationagenda.calendar;
 
-import android.content.ContentResolver;
+import java.util.List;
 
-import java.util.ArrayList;
-
-import grapen.se.notificationagenda.calendar.androidcalendar.AndroidCalendarEvent;
 
 /**
  * Created by ola on 16/02/16.
  */
 public interface CalendarRepository {
-    ArrayList<CalendarEvent> findAllEvents();
+    List<CalendarEvent> findAllEvents();
 
-    ArrayList<Calendar> findVisibleCalendars();
+    List<Calendar> findVisibleCalendars();
 
-    ArrayList<Calendar> findAllCalendars();
+    List<Calendar> findAllCalendars();
 }

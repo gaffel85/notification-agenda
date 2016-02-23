@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class SharedPreferenceAppConfig implements AppConfig {
     }
 
     @Override
-    public List<Long> calendarsToUseIDs() {
+    public Set<Long> calendarsToUseIDs() {
         String key = androidContext.getString(R.string.config_calendars_to_use_key);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(androidContext);
         Set<String> calendarIdsAsString = settings.getStringSet(key, null);
@@ -44,7 +45,7 @@ public class SharedPreferenceAppConfig implements AppConfig {
             return null;
         }
 
-        List<Long> calendarIds = new ArrayList<Long>();
+        Set<Long> calendarIds = new HashSet<Long>();
         for (String calIdStr : calendarIdsAsString) {
             calendarIds.add(Long.parseLong(calIdStr));
         }

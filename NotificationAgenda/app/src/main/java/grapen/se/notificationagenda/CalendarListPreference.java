@@ -30,7 +30,7 @@ public class CalendarListPreference extends MultiSelectListPreference {
             entries[index] = calendar.getName();
             String key = ((Long) calendar.getId()).toString();
             values[index] = key;
-            if (calendar.isVisible()) {
+            if (calendar.isSelected()) {
                 checkedValues.add(key);
             }
             index++;

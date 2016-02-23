@@ -8,6 +8,7 @@ import android.provider.CalendarContract;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import grapen.se.notificationagenda.calendar.Calendar;
 import grapen.se.notificationagenda.calendar.CalendarEvent;
@@ -56,32 +57,50 @@ public class AndroidCalendarRepository implements CalendarRepository {
 
     @Override
     public ArrayList<CalendarEvent> findAllEvents() {
-        List<Long> calendars = selectedOrVisibleCalendarIDs();
+        List<Calendar> calendars = findAllCalendars();
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
         long now = System.currentTimeMillis();
         long tomorrow = now + 24*60*60*1000;
-        for (Long calendarID : calendars) {
-            events.addAll(fetchEventsForCalendar(calendarID, contentResolver, now, tomorrow));
+        for (Calendar calendar : calendars) {
+            if (calendar.isSelected()) {
+                events.addAll(fetchEventsForCalendar(calendar.getId(), contentResolver, now, tomorrow));
+            }
         }
         return events;
     }
 
-    private List<Long> selectedOrVisibleCalendarIDs() {
-        List<Long> calendarsToUse = config.calendarsToUseIDs();
-        if (calendarsToUse == null) {
-            calendarsToUse = new ArrayList<Long>();
-            List<Calendar> visibleCalendars = findVisibleCalendars();
-            for (Calendar calendar : visibleCalendars) {
-                calendarsToUse.add(calendar.getId());
+    @Override
+    public List<Calendar> findAllCalendars() {
+        Set<Long> calendarsToUseIDs = config.calendarsToUseIDs();
+        List<Calendar> allCalendars = findRawCalendars();
+        if (calendarsToUseIDs == null) {
+            markVisibleAsSelected(allCalendars);
+        } else {
+            markSelectedFromSet(allCalendars, calendarsToUseIDs);
+        }
+        return allCalendars;
+    }
+
+    private void markVisibleAsSelected(List<Calendar> rawCalendars) {
+        for (Calendar calendar : rawCalendars) {
+            if (calendar.isVisible()) {
+                calendar.setSelected();
             }
         }
-        return calendarsToUse;
+    }
+
+    private void markSelectedFromSet(List<Calendar> allCalendars, Set<Long> calendarIds) {
+        for (Calendar calendar : allCalendars) {
+            if (calendarIds.contains(calendar.getId())) {
+                calendar.setSelected();
+            }
+        }
     }
 
     @Override
     public ArrayList<Calendar> findVisibleCalendars() {
         ArrayList<Calendar> visibleCalendars = new ArrayList<Calendar>();
-        ArrayList<Calendar> calendars = findAllCalendars();
+        ArrayList<Calendar> calendars = findRawCalendars();
         for (Calendar calendar : calendars) {
             if (calendar.isVisible()) {
                 visibleCalendars.add(calendar);
@@ -90,8 +109,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
         return visibleCalendars;
     }
 
-    @Override
-    public ArrayList<Calendar> findAllCalendars() {
+    public ArrayList<Calendar> findRawCalendars() {
         ArrayList<Calendar> calendars = new ArrayList<Calendar>();
         Cursor calendarCursor = null;
         Uri calendarURI = CalendarContract.Calendars.CONTENT_URI;

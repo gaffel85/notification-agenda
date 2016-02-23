@@ -19,23 +19,6 @@ public class CalendarListPreference extends MultiSelectListPreference {
 
     public CalendarListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        /*List<CharSequence> entries = new ArrayList<CharSequence>();
-        List<CharSequence> entriesValues = new ArrayList<CharSequence>();
-
-        cr = context.getContentResolver();
-        cursor = cr.query(CalendarContract.Calendars.CONTENT_URI, projection, selection, selectionArgs, null);
-
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(0);
-            String displayName = cursor.getString(1);
-
-            entries.add(name);
-            entriesValues.add(displayName);
-        }
-
-        setEntries(entries.toArray(new CharSequence[]{}));
-        setEntryValues(entriesValues.toArray(new CharSequence[]{}));*/
     }
 
     public void updateList(List<Calendar> calendars) {
@@ -45,7 +28,7 @@ public class CalendarListPreference extends MultiSelectListPreference {
         int index = 0;
         for (Calendar calendar : calendars) {
             entries[index] = calendar.getName();
-            String key = "USE_CALENDAR-" + calendar.getId();
+            String key = ((Long) calendar.getId()).toString();
             values[index] = key;
             if (calendar.isVisible()) {
                 checkedValues.add(key);

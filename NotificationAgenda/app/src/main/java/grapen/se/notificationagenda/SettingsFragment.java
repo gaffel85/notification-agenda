@@ -40,7 +40,7 @@ public class SettingsFragment extends AppContextPreferenceFragment implements Ti
             }
         });
 
-        calendarListPref = (CalendarListPreference) findPreference("multiSelectCalendar");
+        calendarListPref = (CalendarListPreference) findPreference(getActivity().getString(R.string.config_calendars_to_use_key));
         CalendarFetcherTask task = new CalendarFetcherTask();
         task.execute();
     }

@@ -41,7 +41,7 @@ public final class AppContext {
 
     public CalendarRepository getCalendarRepository(Context context) {
         if (calendarRepository == null) {
-            calendarRepository = new AndroidCalendarRepository(context.getContentResolver());
+            calendarRepository = new AndroidCalendarRepository(context.getContentResolver(), getAppConfig(context));
         }
         return calendarRepository;
     }

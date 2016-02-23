@@ -2,4 +2,5 @@
 <resources>
     <string name="config_check_calendar_hour_key">config_check_calendar_hour_key</string>
     <string name="config_check_calendar_min_key">config_check_calendar_min_key</string>
+    <string name="config_calendars_to_use_key">config_calendars_to_use_key</string>
 </resources>

@@ -16,7 +16,7 @@
 
     <grapen.se.notificationagenda.CalendarListPreference
         android:defaultValue="@array/pref_calendar_list_default"
-        android:key="multiSelectCalendar"
+        android:key="@string/config_calendars_to_use_key"
         android:summary="Calendars to use"
         android:title="Calendars"/>
 

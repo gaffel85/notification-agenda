@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import grapen.se.notificationagenda.calendar.Calendar;
 import grapen.se.notificationagenda.calendar.CalendarEvent;
 import grapen.se.notificationagenda.calendar.CalendarRepository;
+import grapen.se.notificationagenda.config.AppConfig;
 
 /**
  * Created by ola on 14/02/16.
@@ -45,21 +47,35 @@ public class AndroidCalendarRepository implements CalendarRepository {
     private static final int EVENT_PROJECTION_CALENDAR_ID_INDEX = 4;
 
     private ContentResolver contentResolver;
+    private AppConfig config;
 
-    public AndroidCalendarRepository(ContentResolver contentResolver) {
+    public AndroidCalendarRepository(ContentResolver contentResolver, AppConfig config) {
         this.contentResolver = contentResolver;
+        this.config = config;
     }
 
     @Override
     public ArrayList<CalendarEvent> findAllEvents() {
-        ArrayList<Calendar> calendars = findVisibleCalendars();
+        List<Long> calendars = selectedOrVisibleCalendarIDs();
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
         long now = System.currentTimeMillis();
         long tomorrow = now + 24*60*60*1000;
-        for (Calendar calendar : calendars) {
-            events.addAll(fetchEventsForCalendar(calendar.getId(), contentResolver, now, tomorrow));
+        for (Long calendarID : calendars) {
+            events.addAll(fetchEventsForCalendar(calendarID, contentResolver, now, tomorrow));
         }
         return events;
+    }
+
+    private List<Long> selectedOrVisibleCalendarIDs() {
+        List<Long> calendarsToUse = config.calendarsToUseIDs();
+        if (calendarsToUse == null) {
+            calendarsToUse = new ArrayList<Long>();
+            List<Calendar> visibleCalendars = findVisibleCalendars();
+            for (Calendar calendar : visibleCalendars) {
+                calendarsToUse.add(calendar.getId());
+            }
+        }
+        return calendarsToUse;
     }
 
     @Override

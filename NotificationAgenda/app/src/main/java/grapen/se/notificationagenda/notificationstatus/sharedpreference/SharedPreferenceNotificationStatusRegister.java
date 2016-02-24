@@ -14,6 +14,7 @@ import grapen.se.notificationagenda.notificationstatus.NotificationStatusRegiste
 public class SharedPreferenceNotificationStatusRegister implements NotificationStatusRegister {
     private static final String PREF_FILE_NAME = "DISMISSED_EVENTS_V1";
     private static final String EVENT_PREF_NAME_BIG = "EVENT_PREF_NAME_BIG";
+    private static final String EVENT_PREF_NAME_BIG_CNT = "EVENT_PREF_NAME_BIG_CNT";
 
     private Context androidContext;
 
@@ -37,9 +38,10 @@ public class SharedPreferenceNotificationStatusRegister implements NotificationS
         SharedPreferences settings = androidContext.getSharedPreferences(PREF_FILE_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        Set<String> dismissedIds = getDismissedSet();
+        Set<String> dismissedIds = settings.getStringSet(EVENT_PREF_NAME_BIG, new HashSet<String>());
         dismissedIds.add(notificationId.toString());
         editor.putStringSet(EVENT_PREF_NAME_BIG, dismissedIds);
+        editor.putInt(EVENT_PREF_NAME_BIG_CNT, dismissedIds.size());
 
         editor.commit();
     }

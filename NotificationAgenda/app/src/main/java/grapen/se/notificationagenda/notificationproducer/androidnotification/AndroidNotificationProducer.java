@@ -45,12 +45,13 @@ public class AndroidNotificationProducer implements NotificationProducer {
             builder.setContentText(event.getStartDateFormatted());
             builder.setSmallIcon(R.drawable.notification_icon);
 
+            int intentId = notification.getNotificationId();
             Intent intent = new Intent(androidContext, DismissNotificationReceiver.class);
             intent.putExtra(EventNotification.NOTIFICATION_DISMISS_INTENT_EXTRA_ID, notification.getNotificationId());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(androidContext, 0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(androidContext, intentId, intent, 0);
             builder.setDeleteIntent(pendingIntent);
 
-            notificationManager.notify(notification.getNotificationId(), builder.build());
+            notificationManager.notify(intentId, builder.build());
         }
 
 

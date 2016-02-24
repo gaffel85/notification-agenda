@@ -38,6 +38,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
             CalendarContract.Events.DTSTART,                          //2
             CalendarContract.Events.DTEND,                          //3
             CalendarContract.Events.CALENDAR_ID,                          //3
+            CalendarContract.Events.ALL_DAY
     };
 
     // The indices for the projection array above.
@@ -46,6 +47,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
     private static final int EVENT_PROJECTION_DTSTART_INDEX = 2;
     private static final int EVENT_PROJECTION_DTEND_INDEX = 3;
     private static final int EVENT_PROJECTION_CALENDAR_ID_INDEX = 4;
+    private static final int EVENT_PROJECTION_ALl_DAY_INDEX = 5;
 
     private ContentResolver contentResolver;
     private AppConfig config;
@@ -59,14 +61,23 @@ public class AndroidCalendarRepository implements CalendarRepository {
     public ArrayList<CalendarEvent> findAllEvents() {
         List<Calendar> calendars = findAllCalendars();
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
-        long now = System.currentTimeMillis();
-        long tomorrow = now + 24*60*60*1000;
+        java.util.Calendar startTime = getStartTimeFromConfig();
+        long startTs = startTime.getTimeInMillis();
+        startTime.add(java.util.Calendar.HOUR_OF_DAY, 24);
+        long endTs = startTime.getTimeInMillis();
         for (Calendar calendar : calendars) {
             if (calendar.isSelected()) {
-                events.addAll(fetchEventsForCalendar(calendar.getId(), contentResolver, now, tomorrow));
+                events.addAll(fetchEventsForCalendar(calendar.getId(), contentResolver, startTs, endTs));
             }
         }
         return events;
+    }
+
+    private java.util.Calendar getStartTimeFromConfig() {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, config.runCalenderCheckAtHour());
+        calendar.set(java.util.Calendar.MINUTE, config.runCalenderCheckAtMin());
+        return calendar;
     }
 
     @Override
@@ -157,9 +168,24 @@ public class AndroidCalendarRepository implements CalendarRepository {
             long calendarId = eventCursor.getLong(EVENT_PROJECTION_CALENDAR_ID_INDEX);
             long startDT = eventCursor.getLong(EVENT_PROJECTION_DTSTART_INDEX);
             long endDT = eventCursor.getLong(EVENT_PROJECTION_DTEND_INDEX);
+            boolean allDay = eventCursor.getInt(EVENT_PROJECTION_ALl_DAY_INDEX) == 1;
 
-            events.add(new AndroidCalendarEvent(eventID, eventTitle, startDT,endDT, calendarId));
+            boolean isAllDayEventStartingTomorrow = isOnNextDay(startDT) && allDay;
+            if (!isAllDayEventStartingTomorrow) {
+                events.add(new AndroidCalendarEvent(eventID, eventTitle, startDT, endDT, calendarId));
+            }
         }
         return events;
+    }
+
+    private boolean isOnNextDay(long startDT) {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        calendar.set(java.util.Calendar.MINUTE, 0);
+        calendar.set(java.util.Calendar.SECOND, 0);
+        calendar.set(java.util.Calendar.MILLISECOND, 0);
+        calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+
+        return startDT >= calendar.getTimeInMillis();
     }
 }

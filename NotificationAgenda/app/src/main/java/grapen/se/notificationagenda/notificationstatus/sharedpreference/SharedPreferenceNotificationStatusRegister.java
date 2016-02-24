@@ -24,7 +24,8 @@ public class SharedPreferenceNotificationStatusRegister implements NotificationS
 
     @Override
     public boolean isDismissed(Integer notificationId) {
-        return getDismissedSet().contains(notificationId.toString());
+        return false;
+        //return getDismissedSet().contains(notificationId.toString());
     }
 
     private Set<String> getDismissedSet() {

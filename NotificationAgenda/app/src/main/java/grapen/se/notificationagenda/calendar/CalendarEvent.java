@@ -8,7 +8,7 @@ import java.text.DateFormat;
 public interface CalendarEvent {
     String getDisplayName();
 
-    CharSequence getStartDateFormatted(FormatDateStringProvider formatDateStringProvider);
+    CharSequence getStartDateFormatted(FormatDateStringProvider formatDateStringProvider, int hoursToDisplay);
 
     long getId();
 

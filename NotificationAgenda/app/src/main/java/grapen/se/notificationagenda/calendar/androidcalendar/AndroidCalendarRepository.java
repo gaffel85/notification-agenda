@@ -38,7 +38,8 @@ public class AndroidCalendarRepository implements CalendarRepository {
             CalendarContract.Events.DTSTART,                          //2
             CalendarContract.Events.DTEND,                          //3
             CalendarContract.Events.CALENDAR_ID,                          //3
-            CalendarContract.Events.ALL_DAY
+            CalendarContract.Events.ALL_DAY,
+            CalendarContract.Events.RRULE
     };
 
     // The indices for the projection array above.
@@ -48,6 +49,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
     private static final int EVENT_PROJECTION_DTEND_INDEX = 3;
     private static final int EVENT_PROJECTION_CALENDAR_ID_INDEX = 4;
     private static final int EVENT_PROJECTION_ALl_DAY_INDEX = 5;
+    private static final int EVENT_PROJECTION_RDATE_INDEX = 6;
 
     private ContentResolver contentResolver;
     private AppConfig config;
@@ -159,8 +161,6 @@ public class AndroidCalendarRepository implements CalendarRepository {
         while (eventCursor.moveToNext()) {
             long eventID = 0;
             String eventTitle = null;
-            long eventStartTs = 0;
-            long eventEndTs = 0;
 
             // Get the field values
             eventID = eventCursor.getLong(EVENT_PROJECTION_ID_INDEX);
@@ -169,6 +169,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
             long startDT = eventCursor.getLong(EVENT_PROJECTION_DTSTART_INDEX);
             long endDT = eventCursor.getLong(EVENT_PROJECTION_DTEND_INDEX);
             boolean allDay = eventCursor.getInt(EVENT_PROJECTION_ALl_DAY_INDEX) == 1;
+            String rrule = eventCursor.getString(EVENT_PROJECTION_RDATE_INDEX);
 
             boolean isAllDayEventStartingTomorrow = isOnNextDay(startDT) && allDay;
             if (!isAllDayEventStartingTomorrow) {

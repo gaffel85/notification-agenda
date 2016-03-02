@@ -34,13 +34,12 @@ public class AndroidCalendarEvent implements CalendarEvent {
     }
 
     @Override
-    public CharSequence getStartDateFormatted(FormatDateStringProvider formatDateStringProvider) {
+    public CharSequence getStartDateFormatted(FormatDateStringProvider formatDateStringProvider, int hoursToDisplay) {
         Date startDate = new Date(startTs);
 
-        //TODO: Settings, date format
-        if (isDateToday(startDate)) {
+        if (isDateToday(startDate, hoursToDisplay)) {
             return formatDateStringProvider.getTimeFormat().format(startDate);
-        } else if (isDateTomorrow(startDate)) {
+        } else if (isDateTomorrow(startDate, hoursToDisplay)) {
             java.text.DateFormat timeFormat = formatDateStringProvider.getTimeFormat();
             return formatDateStringProvider.getTomorrowString() + " " + timeFormat.format(startDate);
         } else {
@@ -51,29 +50,36 @@ public class AndroidCalendarEvent implements CalendarEvent {
         }
     }
 
-    private boolean isDateTomorrow(Date date) {
+    private boolean isDateTomorrow(Date date, int hoursToDisplay) {
         Calendar dateCalendar = Calendar.getInstance();
         dateCalendar.setTime(date);
         int dateDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
+        int dateHour = dateCalendar.get(Calendar.HOUR_OF_DAY);
 
-        Date today = new Date();
+        return dateHour < hoursToDisplay;
+
+        /*Date today = new Date();
         Calendar tomorrowCalendar = Calendar.getInstance();
         tomorrowCalendar.setTime(today);
         tomorrowCalendar.add(Calendar.DAY_OF_MONTH, 1);
 
-        return tomorrowCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;
+        return tomorrowCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;*/
     }
 
-    private boolean isDateToday(Date date) {
+    // TODO: Add support for dates outside 24h
+    private boolean isDateToday(Date date, int hoursToDisplay) {
         Calendar dateCalendar = Calendar.getInstance();
         dateCalendar.setTime(date);
         int dateDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
+        int dateHour = dateCalendar.get(Calendar.HOUR_OF_DAY);
 
-        Date today = new Date();
+        return dateHour >= hoursToDisplay;
+
+        /*Date today = new Date();
         Calendar todayCalendar = Calendar.getInstance();
         todayCalendar.setTime(today);
 
-        return todayCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;
+        return todayCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;*/
     }
 
     @Override

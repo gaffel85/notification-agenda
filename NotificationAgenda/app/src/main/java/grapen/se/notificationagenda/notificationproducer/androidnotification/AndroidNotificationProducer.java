@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import java.text.DateFormat;
 import java.util.List;
 
+import grapen.se.notificationagenda.config.AppConfig;
 import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
 import grapen.se.notificationagenda.R;
 import grapen.se.notificationagenda.calendar.CalendarEvent;
@@ -20,9 +21,11 @@ import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
 public class AndroidNotificationProducer implements NotificationProducer {
 
     private Context androidContext;
+    private AppConfig config;
 
-    public AndroidNotificationProducer(Context androidContext) {
+    public AndroidNotificationProducer(Context androidContext, AppConfig config) {
         this.androidContext = androidContext;
+        this.config = config;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class AndroidNotificationProducer implements NotificationProducer {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(androidContext);
             builder.setContentTitle(event.getDisplayName());
-            builder.setContentText(event.getStartDateFormatted(new NotificationTimeStringPovider()));
+            builder.setContentText(event.getStartDateFormatted(new NotificationTimeStringPovider(), config.runCalenderCheckAtHour()));
             builder.setSmallIcon(R.drawable.notification_icon);
 
             int intentId = notification.getNotificationId();

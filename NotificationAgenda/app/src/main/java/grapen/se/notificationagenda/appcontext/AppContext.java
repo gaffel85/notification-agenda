@@ -48,7 +48,7 @@ public final class AppContext {
 
     public NotificationProducer getNotificationProducer(Context context) {
         if (notificationProducer == null) {
-            notificationProducer = new AndroidNotificationProducer(context);
+            notificationProducer = new AndroidNotificationProducer(context, getAppConfig(context));
         }
         return notificationProducer;
     }

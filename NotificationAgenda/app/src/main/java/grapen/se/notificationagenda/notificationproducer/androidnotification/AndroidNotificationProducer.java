@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import java.text.DateFormat;
 import java.util.List;
 
 import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
@@ -42,7 +43,7 @@ public class AndroidNotificationProducer implements NotificationProducer {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(androidContext);
             builder.setContentTitle(event.getDisplayName());
-            builder.setContentText(event.getStartDateFormatted());
+            builder.setContentText(event.getStartDateFormatted(new NotificationTimeStringPovider()));
             builder.setSmallIcon(R.drawable.notification_icon);
 
             int intentId = notification.getNotificationId();
@@ -55,6 +56,24 @@ public class AndroidNotificationProducer implements NotificationProducer {
         }
 
 
+    }
+
+    class NotificationTimeStringPovider implements CalendarEvent.FormatDateStringProvider {
+
+        @Override
+        public String getTomorrowString() {
+            return androidContext.getString(R.string.tomorrow_date_prefix);
+        }
+
+        @Override
+        public DateFormat getTimeFormat() {
+            return android.text.format.DateFormat.getTimeFormat(androidContext);
+        }
+
+        @Override
+        public DateFormat getDateFormat() {
+            return android.text.format.DateFormat.getMediumDateFormat(androidContext);
+        }
     }
 
 

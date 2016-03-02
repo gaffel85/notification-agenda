@@ -1,12 +1,20 @@
 package grapen.se.notificationagenda.calendar;
 
+import java.text.DateFormat;
+
 /**
  * Created by ola on 16/02/16.
  */
 public interface CalendarEvent {
     String getDisplayName();
 
-    CharSequence getStartDateFormatted();
+    CharSequence getStartDateFormatted(FormatDateStringProvider formatDateStringProvider);
 
     long getId();
+
+    interface FormatDateStringProvider {
+        String getTomorrowString();
+        DateFormat getTimeFormat();
+        DateFormat getDateFormat();
+    }
 }

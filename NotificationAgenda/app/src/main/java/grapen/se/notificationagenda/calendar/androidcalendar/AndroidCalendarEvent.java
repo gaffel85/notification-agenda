@@ -1,5 +1,8 @@
 package grapen.se.notificationagenda.calendar.androidcalendar;
 
+import android.content.Context;
+import android.text.format.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,17 +34,34 @@ public class AndroidCalendarEvent implements CalendarEvent {
     }
 
     @Override
-    public CharSequence getStartDateFormatted() {
+    public CharSequence getStartDateFormatted(FormatDateStringProvider formatDateStringProvider) {
         Date startDate = new Date(startTs);
 
         //TODO: Settings, date format
         if (isDateToday(startDate)) {
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-            return timeFormat.format(startDate);
+            return formatDateStringProvider.getTimeFormat().format(startDate);
+        } else if (isDateTomorrow(startDate)) {
+            java.text.DateFormat timeFormat = formatDateStringProvider.getTimeFormat();
+            return formatDateStringProvider.getTomorrowString() + " " + timeFormat.format(startDate);
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            java.text.DateFormat dateFormat = formatDateStringProvider.getDateFormat();
+            java.text.DateFormat timeFormat = formatDateStringProvider.getTimeFormat();
+            String date = dateFormat.format(startDate) + " " + timeFormat.format(startDate);
             return dateFormat.format(startDate);
         }
+    }
+
+    private boolean isDateTomorrow(Date date) {
+        Calendar dateCalendar = Calendar.getInstance();
+        dateCalendar.setTime(date);
+        int dateDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
+
+        Date today = new Date();
+        Calendar tomorrowCalendar = Calendar.getInstance();
+        tomorrowCalendar.setTime(today);
+        tomorrowCalendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        return tomorrowCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;
     }
 
     private boolean isDateToday(Date date) {
@@ -49,7 +69,7 @@ public class AndroidCalendarEvent implements CalendarEvent {
         dateCalendar.setTime(date);
         int dateDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
 
-        Date today = new Date(startTs);
+        Date today = new Date();
         Calendar todayCalendar = Calendar.getInstance();
         todayCalendar.setTime(today);
 

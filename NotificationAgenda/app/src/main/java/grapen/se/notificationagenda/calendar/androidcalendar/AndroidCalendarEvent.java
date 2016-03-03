@@ -54,32 +54,25 @@ public class AndroidCalendarEvent implements CalendarEvent {
         Calendar dateCalendar = Calendar.getInstance();
         dateCalendar.setTime(date);
         int dateDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
-        int dateHour = dateCalendar.get(Calendar.HOUR_OF_DAY);
 
-        return dateHour < hoursToDisplay;
-
-        /*Date today = new Date();
+        Date today = new Date();
         Calendar tomorrowCalendar = Calendar.getInstance();
         tomorrowCalendar.setTime(today);
         tomorrowCalendar.add(Calendar.DAY_OF_MONTH, 1);
 
-        return tomorrowCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;*/
+        return tomorrowCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;
     }
-
-    // TODO: Add support for dates outside 24h
+    
     private boolean isDateToday(Date date, int hoursToDisplay) {
         Calendar dateCalendar = Calendar.getInstance();
         dateCalendar.setTime(date);
         int dateDay = dateCalendar.get(Calendar.DAY_OF_MONTH);
-        int dateHour = dateCalendar.get(Calendar.HOUR_OF_DAY);
 
-        return dateHour >= hoursToDisplay;
-
-        /*Date today = new Date();
+        Date today = new Date();
         Calendar todayCalendar = Calendar.getInstance();
         todayCalendar.setTime(today);
 
-        return todayCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;*/
+        return todayCalendar.get(Calendar.DAY_OF_MONTH) == dateDay;
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 
+import com.android.calendarcommon2.RecurrenceSet;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +41,12 @@ public class AndroidCalendarRepository implements CalendarRepository {
             CalendarContract.Events.DTEND,                          //3
             CalendarContract.Events.CALENDAR_ID,                          //3
             CalendarContract.Events.ALL_DAY,
-            CalendarContract.Events.RRULE
+            CalendarContract.Events.RRULE,
+            CalendarContract.Events.RDATE,
+            CalendarContract.Events.EXDATE,
+            CalendarContract.Events.EXRULE,
+            CalendarContract.Events.DURATION
+
     };
 
     // The indices for the projection array above.
@@ -49,7 +56,11 @@ public class AndroidCalendarRepository implements CalendarRepository {
     private static final int EVENT_PROJECTION_DTEND_INDEX = 3;
     private static final int EVENT_PROJECTION_CALENDAR_ID_INDEX = 4;
     private static final int EVENT_PROJECTION_ALl_DAY_INDEX = 5;
-    private static final int EVENT_PROJECTION_RDATE_INDEX = 6;
+    private static final int EVENT_PROJECTION_RRULE_INDEX = 6;
+    private static final int EVENT_PROJECTION_RDATE_INDEX = 7;
+    private static final int EVENT_PROJECTION_EXDATE_INDEX = 8;
+    private static final int EVENT_PROJECTION_EXRULE_INDEX = 9;
+    private static final int EVENT_PROJECTION_DURATION_INDEX = 10;
 
     private ContentResolver contentResolver;
     private AppConfig config;
@@ -169,7 +180,21 @@ public class AndroidCalendarRepository implements CalendarRepository {
             long startDT = eventCursor.getLong(EVENT_PROJECTION_DTSTART_INDEX);
             long endDT = eventCursor.getLong(EVENT_PROJECTION_DTEND_INDEX);
             boolean allDay = eventCursor.getInt(EVENT_PROJECTION_ALl_DAY_INDEX) == 1;
-            String rrule = eventCursor.getString(EVENT_PROJECTION_RDATE_INDEX);
+
+            long duration = endDT - startDT;
+            String rrule = eventCursor.getString(EVENT_PROJECTION_RRULE_INDEX);
+            String rdate = eventCursor.getString(EVENT_PROJECTION_RDATE_INDEX);
+            String exrule = eventCursor.getString(EVENT_PROJECTION_EXRULE_INDEX);
+            String exdate = eventCursor.getString(EVENT_PROJECTION_EXDATE_INDEX);
+
+            RecurrenceSet recurrenceSet = new RecurrenceSet(rrule, rdate, exrule, exdate);
+            long[] dates = recurrenceSet.rdates;
+            for (long recurrenceDate : dates) {
+                if (recurrenceDate > startTs && recurrenceDate < endTs) {
+                    startDT = recurrenceDate;
+                    endDT = startDT + duration;
+                }
+            }
 
             boolean isAllDayEventStartingTomorrow = isOnNextDay(startDT) && allDay;
             if (!isAllDayEventStartingTomorrow) {
@@ -178,6 +203,8 @@ public class AndroidCalendarRepository implements CalendarRepository {
         }
         return events;
     }
+
+
 
     private boolean isOnNextDay(long startDT) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();

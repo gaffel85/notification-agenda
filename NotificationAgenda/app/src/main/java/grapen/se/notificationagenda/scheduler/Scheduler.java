@@ -4,12 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.Calendar;
 
-import grapen.se.notificationagenda.config.AppConfig;
-import grapen.se.notificationagenda.receivers.TimerReceiver;
+import grapen.se.notificationagenda.model.AppConfig;
 
 /**
  * Created by ola on 19/02/16.

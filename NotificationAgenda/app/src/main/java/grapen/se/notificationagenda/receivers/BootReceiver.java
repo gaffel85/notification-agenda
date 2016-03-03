@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import grapen.se.notificationagenda.appcontext.AppContextBroadcastReceiver;
-import grapen.se.notificationagenda.config.AppConfig;
+import grapen.se.notificationagenda.model.AppConfig;
 
 /**
  * Created by ola on 17/02/16.

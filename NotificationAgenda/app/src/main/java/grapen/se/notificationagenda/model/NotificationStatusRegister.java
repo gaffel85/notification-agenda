@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.notificationstatus;
+package grapen.se.notificationagenda.model;
 
 /**
  * Created by ola on 17/02/16.

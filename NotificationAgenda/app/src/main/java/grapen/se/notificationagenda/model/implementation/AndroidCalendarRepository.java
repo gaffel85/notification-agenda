@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.calendar.androidcalendar;
+package grapen.se.notificationagenda.model.implementation;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import grapen.se.notificationagenda.calendar.Calendar;
-import grapen.se.notificationagenda.calendar.CalendarEvent;
-import grapen.se.notificationagenda.calendar.CalendarRepository;
-import grapen.se.notificationagenda.config.AppConfig;
+import grapen.se.notificationagenda.model.Calendar;
+import grapen.se.notificationagenda.model.CalendarEvent;
+import grapen.se.notificationagenda.model.CalendarRepository;
+import grapen.se.notificationagenda.model.AppConfig;
 
 /**
  * Created by ola on 14/02/16.
@@ -153,10 +153,6 @@ public class AndroidCalendarRepository implements CalendarRepository {
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
 
         Cursor eventCursor = null;
-        /*Uri eventURI = CalendarContract.Events.CONTENT_URI;*/
-       /* String eventSelection = CalendarContract.Events.CALENDAR_ID + " = ? AND "((" + CalendarContract.Events.DTSTART + " >= ?) AND ("
-                + CalendarContract.Events.DTSTART + " <= ?))";*/
-
         String eventSelection = CalendarContract.Events.CALENDAR_ID + " = ?";
         String[] eventSelectionArgs = new String[] {calID.toString()};
 
@@ -166,7 +162,6 @@ public class AndroidCalendarRepository implements CalendarRepository {
         ContentUris.appendId(eventsUriBuilder, endTs);
         Uri eventsUri = eventsUriBuilder.build();
 
-        /*String[] eventSelectionArgs = new String[] {((Long) calID).toString(), ((Long) 1455652474169l).toString(), ((Long) endTs).toString()};*/
         eventCursor = cr.query(eventsUri, EVENT_PROJECTION, eventSelection, eventSelectionArgs, CalendarContract.Instances.DTSTART + " ASC");
 
         while (eventCursor.moveToNext()) {
@@ -181,39 +176,17 @@ public class AndroidCalendarRepository implements CalendarRepository {
             long endDT = eventCursor.getLong(EVENT_PROJECTION_DTEND_INDEX);
             boolean allDay = eventCursor.getInt(EVENT_PROJECTION_ALl_DAY_INDEX) == 1;
 
-            long duration = endDT - startDT;
             String rrule = eventCursor.getString(EVENT_PROJECTION_RRULE_INDEX);
             String rdate = eventCursor.getString(EVENT_PROJECTION_RDATE_INDEX);
             String exrule = eventCursor.getString(EVENT_PROJECTION_EXRULE_INDEX);
             String exdate = eventCursor.getString(EVENT_PROJECTION_EXDATE_INDEX);
 
-            RecurrenceSet recurrenceSet = new RecurrenceSet(rrule, rdate, exrule, exdate);
-            long[] dates = recurrenceSet.rdates;
-            for (long recurrenceDate : dates) {
-                if (recurrenceDate > startTs && recurrenceDate < endTs) {
-                    startDT = recurrenceDate;
-                    endDT = startDT + duration;
-                }
-            }
-
-            boolean isAllDayEventStartingTomorrow = isOnNextDay(startDT) && allDay;
+            AndroidCalendarEvent event = new AndroidCalendarEvent(eventID, calendarId, eventTitle, allDay, startDT, endDT, rrule, rdate, exrule, exdate);
+            boolean isAllDayEventStartingTomorrow = event.isOnNextDay() && event.isAllDay();
             if (!isAllDayEventStartingTomorrow) {
-                events.add(new AndroidCalendarEvent(eventID, eventTitle, startDT, endDT, calendarId));
+                events.add(event);
             }
         }
         return events;
-    }
-
-
-
-    private boolean isOnNextDay(long startDT) {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
-        calendar.set(java.util.Calendar.MINUTE, 0);
-        calendar.set(java.util.Calendar.SECOND, 0);
-        calendar.set(java.util.Calendar.MILLISECOND, 0);
-        calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-
-        return startDT >= calendar.getTimeInMillis();
     }
 }

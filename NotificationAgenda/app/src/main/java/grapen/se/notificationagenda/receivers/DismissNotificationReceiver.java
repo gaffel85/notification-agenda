@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import grapen.se.notificationagenda.appcontext.AppContextBroadcastReceiver;
-import grapen.se.notificationagenda.notificationproducer.androidnotification.EventNotification;
-import grapen.se.notificationagenda.notificationstatus.NotificationStatusRegister;
+import grapen.se.notificationagenda.view.EventNotification;
+import grapen.se.notificationagenda.model.NotificationStatusRegister;
 
 /**
  * Created by ola on 19/02/16.

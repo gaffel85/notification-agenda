@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.notificationproducer.androidnotification;
+package grapen.se.notificationagenda.view;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,11 +9,10 @@ import android.support.v4.app.NotificationCompat;
 import java.text.DateFormat;
 import java.util.List;
 
-import grapen.se.notificationagenda.config.AppConfig;
+import grapen.se.notificationagenda.model.AppConfig;
 import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
 import grapen.se.notificationagenda.R;
-import grapen.se.notificationagenda.calendar.CalendarEvent;
-import grapen.se.notificationagenda.notificationproducer.NotificationProducer;
+import grapen.se.notificationagenda.model.CalendarEvent;
 
 /**
  * Created by ola on 17/02/16.

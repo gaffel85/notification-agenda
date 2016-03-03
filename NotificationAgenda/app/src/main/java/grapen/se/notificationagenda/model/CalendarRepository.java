@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.calendar;
+package grapen.se.notificationagenda.model;
 
 import java.util.List;
 

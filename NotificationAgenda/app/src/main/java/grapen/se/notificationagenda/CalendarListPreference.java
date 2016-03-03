@@ -1,16 +1,14 @@
 package grapen.se.notificationagenda;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.preference.MultiSelectListPreference;
-import android.provider.CalendarContract;
 import android.util.AttributeSet;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import grapen.se.notificationagenda.calendar.Calendar;
+import grapen.se.notificationagenda.model.Calendar;
 
 /**
  * Created by ola on 20/02/16.

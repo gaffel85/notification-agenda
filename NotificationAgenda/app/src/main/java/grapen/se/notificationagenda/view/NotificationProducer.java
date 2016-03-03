@@ -1,8 +1,8 @@
-package grapen.se.notificationagenda.notificationproducer;
+package grapen.se.notificationagenda.view;
 
 import java.util.List;
 
-import grapen.se.notificationagenda.calendar.CalendarEvent;
+import grapen.se.notificationagenda.model.CalendarEvent;
 
 /**
  * Created by ola on 17/02/16.

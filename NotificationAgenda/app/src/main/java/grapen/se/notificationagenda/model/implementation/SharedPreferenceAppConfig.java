@@ -1,16 +1,14 @@
-package grapen.se.notificationagenda.config.sharedpreferenceconfig;
+package grapen.se.notificationagenda.model.implementation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import grapen.se.notificationagenda.R;
-import grapen.se.notificationagenda.config.AppConfig;
+import grapen.se.notificationagenda.model.AppConfig;
 
 /**
  * Created by ola on 19/02/16.

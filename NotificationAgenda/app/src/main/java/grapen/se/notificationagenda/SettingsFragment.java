@@ -91,19 +91,19 @@ public class SettingsFragment extends AppContextPreferenceFragment implements Ti
         getAppContext().getScheduler(getActivity()).scheduleTimer(getActivity(), TimerReceiver.class);
     }
 
-    public class CalendarFetcherTask extends AsyncTask<Void, Void, List<grapen.se.notificationagenda.calendar.Calendar>> {
+    public class CalendarFetcherTask extends AsyncTask<Void, Void, List<grapen.se.notificationagenda.model.Calendar>> {
 
         @Override
-        protected List<grapen.se.notificationagenda.calendar.Calendar> doInBackground(Void... params) {
+        protected List<grapen.se.notificationagenda.model.Calendar> doInBackground(Void... params) {
             return getAppContext().getCalendarRepository(getActivity()).findAllCalendars();
         }
 
-        protected void onPostExecute(List<grapen.se.notificationagenda.calendar.Calendar> calendars) {
+        protected void onPostExecute(List<grapen.se.notificationagenda.model.Calendar> calendars) {
             updateCalendarList(calendars);
         }
     }
 
-    private void updateCalendarList(List<grapen.se.notificationagenda.calendar.Calendar> calendars) {
+    private void updateCalendarList(List<grapen.se.notificationagenda.model.Calendar> calendars) {
         calendarListPref.updateList(calendars);
     }
 }

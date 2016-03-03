@@ -1,6 +1,6 @@
-package grapen.se.notificationagenda.notificationproducer.androidnotification;
+package grapen.se.notificationagenda.view;
 
-import grapen.se.notificationagenda.calendar.CalendarEvent;
+import grapen.se.notificationagenda.model.CalendarEvent;
 
 /**
  * Created by ola on 19/02/16.

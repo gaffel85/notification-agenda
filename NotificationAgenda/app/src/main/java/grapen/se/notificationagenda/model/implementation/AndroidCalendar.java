@@ -1,10 +1,6 @@
-package grapen.se.notificationagenda.calendar.androidcalendar;
+package grapen.se.notificationagenda.model.implementation;
 
-import android.content.ContentResolver;
-
-import java.util.List;
-
-import grapen.se.notificationagenda.calendar.Calendar;
+import grapen.se.notificationagenda.model.Calendar;
 
 /**
  * Created by ola on 14/02/16.

@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.view;
+package se.grapen.notificationagendaview;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -7,20 +7,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import grapen.se.notificationagenda.R;
-import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
-
 /**
  * Created by ola on 17/02/16.
  */
 public class NotificationDisplay {
+
+    //TODO: Shuould this be here?
     public static final String NOTIFICATION_DISMISS_INTENT_EXTRA_ID = "NOTIFICATION_DISMISS_INTENT_EXTRA_ID";
 
     public interface Adapter {
         int nbrOfEvents();
         int getIdForEvent(int eventIndex);
         String getTitleForEvent(int eventIndex);
-        String getDisplayTime(int eventIndex);
+        String getDisplayTimeForEvent(int eventIndex);
+        Class<?> getDismissIntentReceiverForEvent(int eventIndex);
     }
 
     private Context androidContext;
@@ -43,11 +43,11 @@ public class NotificationDisplay {
             for (int i = 0; i < adapter.nbrOfEvents(); i++) {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(androidContext);
                 builder.setContentTitle(adapter.getTitleForEvent(i));
-                builder.setContentText(adapter.getDisplayTime(i));
+                builder.setContentText(adapter.getDisplayTimeForEvent(i));
                 builder.setSmallIcon(R.drawable.notification_icon);
 
                 int intentId = adapter.getIdForEvent(i);
-                Intent intent = new Intent(androidContext, DismissNotificationReceiver.class);
+                Intent intent = new Intent(androidContext, adapter.getDismissIntentReceiverForEvent(i));
                 intent.putExtra(NOTIFICATION_DISMISS_INTENT_EXTRA_ID, intentId);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(androidContext, intentId, intent, 0);
                 builder.setDeleteIntent(pendingIntent);

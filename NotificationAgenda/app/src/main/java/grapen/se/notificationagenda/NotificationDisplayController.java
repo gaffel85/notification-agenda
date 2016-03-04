@@ -5,9 +5,10 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import grapen.se.notificationagenda.view.NotificationDisplay;
+import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
 import grapen.se.notificationagenda.viewmodel.EventNotificationVM;
 import grapen.se.notificationagenda.viewmodel.NotificationDisplayVM;
+import se.grapen.notificationagendaview.NotificationDisplay;
 
 /**
  * Created by ola on 04/03/16.
@@ -43,8 +44,13 @@ public class NotificationDisplayController {
             }
 
             @Override
-            public String getDisplayTime(int eventIndex) {
+            public String getDisplayTimeForEvent(int eventIndex) {
                 return events.get(eventIndex).getDisplayTime();
+            }
+
+            @Override
+            public Class<?> getDismissIntentReceiverForEvent(int eventIndex) {
+                return DismissNotificationReceiver.class;
             }
         });
     }

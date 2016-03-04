@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.model;
+package se.grapen.notificationagendamodel;
 
 /**
  * Created by ola on 16/02/16.

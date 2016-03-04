@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.model.implementation;
+package se.grapen.notificationagendamodel.implementation;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -6,16 +6,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 
-import com.android.calendarcommon2.RecurrenceSet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import grapen.se.notificationagenda.model.Calendar;
-import grapen.se.notificationagenda.model.CalendarEvent;
-import grapen.se.notificationagenda.model.CalendarRepository;
-import grapen.se.notificationagenda.model.AppConfig;
+import se.grapen.notificationagendamodel.AppConfig;
+import se.grapen.notificationagendamodel.Calendar;
+import se.grapen.notificationagendamodel.CalendarEvent;
+import se.grapen.notificationagendamodel.CalendarRepository;
 
 /**
  * Created by ola on 14/02/16.

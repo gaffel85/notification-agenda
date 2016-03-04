@@ -5,12 +5,12 @@ import android.content.Context;
 import grapen.se.notificationagenda.NotificationDisplayController;
 import grapen.se.notificationagenda.viewmodel.NotificationDisplayVM;
 import grapen.se.notificationagenda.scheduler.Scheduler;
-import grapen.se.notificationagenda.model.CalendarRepository;
-import grapen.se.notificationagenda.model.implementation.AndroidCalendarRepository;
-import grapen.se.notificationagenda.model.AppConfig;
-import grapen.se.notificationagenda.model.implementation.SharedPreferenceAppConfig;
-import grapen.se.notificationagenda.model.EventNotificationStatusRegister;
-import grapen.se.notificationagenda.model.implementation.SharedPreferenceNotificationStatusRegister;
+import se.grapen.notificationagendamodel.AppConfig;
+import se.grapen.notificationagendamodel.CalendarRepository;
+import se.grapen.notificationagendamodel.EventNotificationStatusRegister;
+import se.grapen.notificationagendamodel.implementation.AndroidCalendarRepository;
+import se.grapen.notificationagendamodel.implementation.SharedPreferenceAppConfig;
+import se.grapen.notificationagendamodel.implementation.SharedPreferenceNotificationStatusRegister;
 
 /**
  * Created by ola on 17/02/16.

@@ -14,6 +14,7 @@ import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
  * Created by ola on 17/02/16.
  */
 public class NotificationDisplay {
+    public static final String NOTIFICATION_DISMISS_INTENT_EXTRA_ID = "NOTIFICATION_DISMISS_INTENT_EXTRA_ID";
 
     public interface Adapter {
         int nbrOfEvents();
@@ -47,7 +48,7 @@ public class NotificationDisplay {
 
                 int intentId = adapter.getIdForEvent(i);
                 Intent intent = new Intent(androidContext, DismissNotificationReceiver.class);
-                intent.putExtra(EventNotification.NOTIFICATION_DISMISS_INTENT_EXTRA_ID, intentId);
+                intent.putExtra(NOTIFICATION_DISMISS_INTENT_EXTRA_ID, intentId);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(androidContext, intentId, intent, 0);
                 builder.setDeleteIntent(pendingIntent);
 

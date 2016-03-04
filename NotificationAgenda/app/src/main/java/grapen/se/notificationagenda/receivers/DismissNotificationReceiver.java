@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import grapen.se.notificationagenda.appcontext.AppContextBroadcastReceiver;
-import grapen.se.notificationagenda.view.EventNotification;
-import grapen.se.notificationagenda.model.EventNotificationStatusRegister;
+import grapen.se.notificationagenda.view.NotificationDisplay;
+import se.grapen.notificationagendamodel.EventNotificationStatusRegister;
 
 /**
  * Created by ola on 19/02/16.
@@ -15,7 +15,7 @@ public class DismissNotificationReceiver extends AppContextBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         EventNotificationStatusRegister statusRegister = getAppContext().getNoficationStatusRegister(context);
-        int notificationId = intent.getIntExtra(EventNotification.NOTIFICATION_DISMISS_INTENT_EXTRA_ID, -1);
+        int notificationId = intent.getIntExtra(NotificationDisplay.NOTIFICATION_DISMISS_INTENT_EXTRA_ID, -1);
         if (notificationId >= 0) {
             statusRegister.didDismiss((long) notificationId);
         }

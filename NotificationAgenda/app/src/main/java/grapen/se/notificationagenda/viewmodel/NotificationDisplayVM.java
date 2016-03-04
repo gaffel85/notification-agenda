@@ -5,10 +5,9 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import grapen.se.notificationagenda.model.CalendarEvent;
-import grapen.se.notificationagenda.model.CalendarRepository;
-import grapen.se.notificationagenda.model.EventNotificationStatusRegister;
-import grapen.se.notificationagenda.view.NotificationDisplay;
+import se.grapen.notificationagendamodel.CalendarEvent;
+import se.grapen.notificationagendamodel.CalendarRepository;
+import se.grapen.notificationagendamodel.EventNotificationStatusRegister;
 
 /**
  * Created by ola on 17/02/16.

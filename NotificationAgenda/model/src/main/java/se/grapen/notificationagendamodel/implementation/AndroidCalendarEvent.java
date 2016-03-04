@@ -1,11 +1,9 @@
-package grapen.se.notificationagenda.model.implementation;
+package se.grapen.notificationagendamodel.implementation;
 
 import com.android.calendarcommon2.RecurrenceSet;
 
-import java.util.Calendar;
-import java.util.Date;
+import se.grapen.notificationagendamodel.CalendarEvent;
 
-import grapen.se.notificationagenda.model.CalendarEvent;
 
 /**
  * Created by ola on 14/02/16.

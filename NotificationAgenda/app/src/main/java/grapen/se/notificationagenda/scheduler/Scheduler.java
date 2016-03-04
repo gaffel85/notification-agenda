@@ -7,7 +7,7 @@ import android.content.Intent;
 
 import java.util.Calendar;
 
-import grapen.se.notificationagenda.model.AppConfig;
+import se.grapen.notificationagendamodel.AppConfig;
 
 /**
  * Created by ola on 19/02/16.

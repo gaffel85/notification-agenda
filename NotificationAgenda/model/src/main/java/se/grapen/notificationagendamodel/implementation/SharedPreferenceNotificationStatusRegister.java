@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.model.implementation;
+package se.grapen.notificationagendamodel.implementation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
-import grapen.se.notificationagenda.model.EventNotificationStatusRegister;
+import se.grapen.notificationagendamodel.EventNotificationStatusRegister;
+
 
 /**
  * Created by ola on 17/02/16.

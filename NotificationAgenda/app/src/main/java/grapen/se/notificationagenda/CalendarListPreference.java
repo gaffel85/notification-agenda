@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import grapen.se.notificationagenda.model.Calendar;
+import se.grapen.notificationagendamodel.Calendar;
+
 
 /**
  * Created by ola on 20/02/16.

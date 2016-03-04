@@ -1,6 +1,4 @@
-package grapen.se.notificationagenda.model;
-
-import java.text.DateFormat;
+package se.grapen.notificationagendamodel;
 
 /**
  * Created by ola on 16/02/16.

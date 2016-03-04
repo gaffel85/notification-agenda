@@ -1,6 +1,7 @@
-package grapen.se.notificationagenda.model.implementation;
+package se.grapen.notificationagendamodel.implementation;
 
-import grapen.se.notificationagenda.model.Calendar;
+
+import se.grapen.notificationagendamodel.Calendar;
 
 /**
  * Created by ola on 14/02/16.

@@ -8,7 +8,6 @@ import android.util.Log;
 import java.util.Map;
 
 import grapen.se.notificationagenda.appcontext.AppContextActivity;
-import grapen.se.notificationagenda.viewmodel.NotificationDisplayVM;
 import grapen.se.notificationagenda.receivers.TimerReceiver;
 
 public class SettingsActivity extends AppContextActivity {

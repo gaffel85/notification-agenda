@@ -3,7 +3,6 @@ package grapen.se.notificationagenda.appcontext;
 import android.content.Context;
 
 import grapen.se.notificationagenda.NotificationDisplayController;
-import grapen.se.notificationagenda.viewmodel.NotificationDisplayVM;
 import grapen.se.notificationagenda.scheduler.Scheduler;
 import se.grapen.notificationagendamodel.AppConfig;
 import se.grapen.notificationagendamodel.CalendarRepository;
@@ -33,7 +32,6 @@ public final class AppContext {
 
     private CalendarRepository calendarRepository;
     private EventNotificationStatusRegister notificationStatusRegister;
-    private NotificationDisplayVM notificationDisplayVM;
     private NotificationDisplayController notificationDisplayController;
     private AppConfig appConfig;
     private Scheduler scheduler;
@@ -52,16 +50,9 @@ public final class AppContext {
         return notificationStatusRegister;
     }
 
-    public NotificationDisplayVM getNotificationDisplayVM(Context context) {
-        if (notificationDisplayVM == null) {
-            notificationDisplayVM = new NotificationDisplayVM(context, getCalendarRepository(context), getNoficationStatusRegister(context));
-        }
-        return notificationDisplayVM;
-    }
-
     public NotificationDisplayController getNotificationDisplayController(Context context) {
         if (notificationDisplayController == null) {
-            notificationDisplayController= new NotificationDisplayController(context, getNotificationDisplayVM(context));
+            notificationDisplayController= new NotificationDisplayController(context, getCalendarRepository(context), getNoficationStatusRegister(context));
         }
         return notificationDisplayController;
     }

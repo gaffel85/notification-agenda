@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.viewmodel;
+package se.grapen.notificationagendaviewmodel;
 
 import android.content.Context;
 
@@ -6,7 +6,6 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import grapen.se.notificationagenda.R;
 
 /**
  * Created by ola on 04/03/16.

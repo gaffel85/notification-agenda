@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">notificationagendaviewmodel</string>
+    <string name="tomorrow_date_prefix">Tomorrow at</string>
+</resources>

@@ -1,4 +1,4 @@
-package grapen.se.notificationagenda.viewmodel;
+package se.grapen.notificationagendaviewmodel;
 
 import android.content.Context;
 

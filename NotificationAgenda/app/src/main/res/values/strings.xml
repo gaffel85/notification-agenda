@@ -2,7 +2,4 @@
     <string name="app_name">NotificationAgenda</string>
     <string name="action_settings">Settings</string>
     <string-array name="pref_calendar_list_default"></string-array>
-
-    <string name="tomorrow_date_prefix">Tomorrow at</string>
-
 </resources>

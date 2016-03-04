@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/calendar-common/calendar-common.iml" filepath="$PROJECT_DIR$/calendar-common/calendar-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/view/view.iml" filepath="$PROJECT_DIR$/view/view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewmodel/viewmodel.iml" filepath="$PROJECT_DIR$/viewmodel/viewmodel.iml" />
     </modules>
   </component>
 </project>

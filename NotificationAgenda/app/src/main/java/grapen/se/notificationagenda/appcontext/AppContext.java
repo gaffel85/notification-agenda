@@ -2,13 +2,13 @@ package grapen.se.notificationagenda.appcontext;
 
 import android.content.Context;
 
-import grapen.se.notificationagenda.controller.NotificationAgendaController;
+import grapen.se.notificationagenda.NotificationDisplayController;
+import grapen.se.notificationagenda.viewmodel.NotificationDisplayVM;
 import grapen.se.notificationagenda.scheduler.Scheduler;
 import grapen.se.notificationagenda.model.CalendarRepository;
 import grapen.se.notificationagenda.model.implementation.AndroidCalendarRepository;
 import grapen.se.notificationagenda.model.AppConfig;
 import grapen.se.notificationagenda.model.implementation.SharedPreferenceAppConfig;
-import grapen.se.notificationagenda.view.NotificationDisplay;
 import grapen.se.notificationagenda.model.EventNotificationStatusRegister;
 import grapen.se.notificationagenda.model.implementation.SharedPreferenceNotificationStatusRegister;
 
@@ -33,7 +33,8 @@ public final class AppContext {
 
     private CalendarRepository calendarRepository;
     private EventNotificationStatusRegister notificationStatusRegister;
-    private NotificationAgendaController notificationAgendaController;
+    private NotificationDisplayVM notificationDisplayVM;
+    private NotificationDisplayController notificationDisplayController;
     private AppConfig appConfig;
     private Scheduler scheduler;
 
@@ -51,11 +52,18 @@ public final class AppContext {
         return notificationStatusRegister;
     }
 
-    public NotificationAgendaController getNotificationAgendaController(Context context) {
-        if (notificationAgendaController == null) {
-            notificationAgendaController = new NotificationAgendaController(context, getCalendarRepository(context), getNoficationStatusRegister(context));
+    public NotificationDisplayVM getNotificationDisplayVM(Context context) {
+        if (notificationDisplayVM == null) {
+            notificationDisplayVM = new NotificationDisplayVM(context, getCalendarRepository(context), getNoficationStatusRegister(context));
         }
-        return notificationAgendaController;
+        return notificationDisplayVM;
+    }
+
+    public NotificationDisplayController getNotificationDisplayController(Context context) {
+        if (notificationDisplayController == null) {
+            notificationDisplayController= new NotificationDisplayController(context, getNotificationDisplayVM(context));
+        }
+        return notificationDisplayController;
     }
 
     public AppConfig getAppConfig(Context context) {

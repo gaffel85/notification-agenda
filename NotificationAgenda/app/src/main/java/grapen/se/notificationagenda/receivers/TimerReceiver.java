@@ -3,9 +3,8 @@ package grapen.se.notificationagenda.receivers;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
-import android.widget.Toast;
 
-import grapen.se.notificationagenda.controller.NotificationAgendaController;
+import grapen.se.notificationagenda.NotificationDisplayController;
 import grapen.se.notificationagenda.appcontext.AppContextBroadcastReceiver;
 
 /**
@@ -20,8 +19,8 @@ public class TimerReceiver extends AppContextBroadcastReceiver {
         PowerManager.WakeLock wakeLock = takeWakeLock(context);
         //Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
 
-        NotificationAgendaController controller = getAppContext().getNotificationAgendaController(context);
-        controller.sendAgendaAsNotification();
+        NotificationDisplayController controller = getAppContext().getNotificationDisplayController(context);
+        controller.displayEvents();
 
         releaseWakeLock(wakeLock);
     }

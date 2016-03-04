@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.text.DateFormat;
 import java.util.Map;
 
 import grapen.se.notificationagenda.appcontext.AppContextActivity;
-import grapen.se.notificationagenda.controller.NotificationAgendaController;
-import grapen.se.notificationagenda.model.CalendarEvent;
+import grapen.se.notificationagenda.viewmodel.NotificationDisplayVM;
 import grapen.se.notificationagenda.receivers.TimerReceiver;
-import grapen.se.notificationagenda.scheduler.Scheduler;
 
 public class SettingsActivity extends AppContextActivity {
 
@@ -29,8 +26,8 @@ public class SettingsActivity extends AppContextActivity {
     protected void onResume() {
         super.onResume();
 
-        NotificationAgendaController controller = getAppContext().getNotificationAgendaController(this);
-        controller.sendAgendaAsNotification();
+        NotificationDisplayController controller = getAppContext().getNotificationDisplayController(this);
+        controller.displayEvents();
 
         getAppContext().getScheduler(this).scheduleTimer(this, TimerReceiver.class);
 

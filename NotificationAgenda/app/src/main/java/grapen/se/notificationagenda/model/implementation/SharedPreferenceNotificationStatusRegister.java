@@ -6,12 +6,12 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
-import grapen.se.notificationagenda.model.NotificationStatusRegister;
+import grapen.se.notificationagenda.model.EventNotificationStatusRegister;
 
 /**
  * Created by ola on 17/02/16.
  */
-public class SharedPreferenceNotificationStatusRegister implements NotificationStatusRegister {
+public class SharedPreferenceNotificationStatusRegister implements EventNotificationStatusRegister {
     private static final String PREF_FILE_NAME = "DISMISSED_EVENTS_V1";
     private static final String EVENT_PREF_NAME_BIG = "EVENT_PREF_NAME_BIG";
     private static final String EVENT_PREF_NAME_BIG_CNT = "EVENT_PREF_NAME_BIG_CNT";
@@ -23,7 +23,7 @@ public class SharedPreferenceNotificationStatusRegister implements NotificationS
     }
 
     @Override
-    public boolean isDismissed(Integer notificationId) {
+    public boolean isDismissed(Long eventId) {
         return false;
         //return getDismissedSet().contains(notificationId.toString());
     }
@@ -35,12 +35,12 @@ public class SharedPreferenceNotificationStatusRegister implements NotificationS
     }
 
     @Override
-    public void didDismiss(Integer notificationId) {
+    public void didDismiss(Long eventId) {
         SharedPreferences settings = androidContext.getSharedPreferences(PREF_FILE_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
         Set<String> dismissedIds = settings.getStringSet(EVENT_PREF_NAME_BIG, new HashSet<String>());
-        dismissedIds.add(notificationId.toString());
+        dismissedIds.add(eventId.toString());
         editor.putStringSet(EVENT_PREF_NAME_BIG, dismissedIds);
         editor.putInt(EVENT_PREF_NAME_BIG_CNT, dismissedIds.size());
 

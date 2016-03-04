@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.text.DateFormat;
 import java.util.Map;
 
 import grapen.se.notificationagenda.appcontext.AppContextActivity;
 import grapen.se.notificationagenda.controller.NotificationAgendaController;
+import grapen.se.notificationagenda.model.CalendarEvent;
 import grapen.se.notificationagenda.receivers.TimerReceiver;
 import grapen.se.notificationagenda.scheduler.Scheduler;
 

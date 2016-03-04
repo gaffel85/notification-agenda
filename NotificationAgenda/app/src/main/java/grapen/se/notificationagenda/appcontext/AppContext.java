@@ -8,9 +8,8 @@ import grapen.se.notificationagenda.model.CalendarRepository;
 import grapen.se.notificationagenda.model.implementation.AndroidCalendarRepository;
 import grapen.se.notificationagenda.model.AppConfig;
 import grapen.se.notificationagenda.model.implementation.SharedPreferenceAppConfig;
-import grapen.se.notificationagenda.view.NotificationProducer;
-import grapen.se.notificationagenda.view.AndroidNotificationProducer;
-import grapen.se.notificationagenda.model.NotificationStatusRegister;
+import grapen.se.notificationagenda.view.NotificationDisplay;
+import grapen.se.notificationagenda.model.EventNotificationStatusRegister;
 import grapen.se.notificationagenda.model.implementation.SharedPreferenceNotificationStatusRegister;
 
 /**
@@ -33,8 +32,7 @@ public final class AppContext {
     }
 
     private CalendarRepository calendarRepository;
-    private NotificationProducer notificationProducer;
-    private NotificationStatusRegister notificationStatusRegister;
+    private EventNotificationStatusRegister notificationStatusRegister;
     private NotificationAgendaController notificationAgendaController;
     private AppConfig appConfig;
     private Scheduler scheduler;
@@ -46,14 +44,7 @@ public final class AppContext {
         return calendarRepository;
     }
 
-    public NotificationProducer getNotificationProducer(Context context) {
-        if (notificationProducer == null) {
-            notificationProducer = new AndroidNotificationProducer(context, getAppConfig(context));
-        }
-        return notificationProducer;
-    }
-
-    public NotificationStatusRegister getNoficationStatusRegister(Context context) {
+    public EventNotificationStatusRegister getNoficationStatusRegister(Context context) {
         if (notificationStatusRegister == null) {
             notificationStatusRegister = new SharedPreferenceNotificationStatusRegister(context);
         }
@@ -62,7 +53,7 @@ public final class AppContext {
 
     public NotificationAgendaController getNotificationAgendaController(Context context) {
         if (notificationAgendaController == null) {
-            notificationAgendaController = new NotificationAgendaController(getCalendarRepository(context), getNotificationProducer(context), getNoficationStatusRegister(context));
+            notificationAgendaController = new NotificationAgendaController(context, getCalendarRepository(context), getNoficationStatusRegister(context));
         }
         return notificationAgendaController;
     }

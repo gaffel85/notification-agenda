@@ -15,24 +15,26 @@ public class EventNotificationVM {
     private String title;
     private String displayTime;
 
-    public EventNotificationVM(int id, String title, long startTs, Context androidContext) {
+    public EventNotificationVM(int id, String title, long startTs, boolean allDay, Context androidContext) {
         this.id = id;
         this.title = title;
         DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(androidContext);
         DateFormat dateFormat = android.text.format.DateFormat.getMediumDateFormat(androidContext);
-        this.displayTime = formatDateString(startTs, timeFormat, dateFormat, androidContext);
+        this.displayTime = formatDateString(allDay, startTs, timeFormat, dateFormat, androidContext);
     }
 
-    private String formatDateString(long startTs, DateFormat timeFormat, DateFormat dateFormat, Context androidContext) {
+    private String formatDateString(boolean allDay, long startTs, DateFormat timeFormat, DateFormat dateFormat, Context androidContext) {
         Date startDate = new Date(startTs);
 
-        if (isDateToday(startDate)) {
+        if (allDay) {
+            return androidContext.getString(R.string.allday_display_time);
+        } else if (isDateToday(startDate)) {
             return timeFormat.format(startDate);
         } else if (isDateTomorrow(startDate)) {
             return androidContext.getString(R.string.tomorrow_date_prefix) + " " + timeFormat.format(startDate);
         } else {
             String date = dateFormat.format(startDate) + " " + timeFormat.format(startDate);
-            return dateFormat.format(startDate);
+            return date;
         }
     }
 

@@ -3,6 +3,8 @@ package se.grapen.notificationagendaviewmodel;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import se.grapen.notificationagendamodel.CalendarEvent;
@@ -27,15 +29,26 @@ public class NotificationDisplayVM {
 
     public List<EventNotificationVM> loadEvents() {
         List<CalendarEvent> calendarEvents = calendarRepository.findAllEvents();
+        sortEventWithLatestLast(calendarEvents);
         List<EventNotificationVM> events = filterDismissedEvents(calendarEvents);
         return events;
+    }
+
+    private void sortEventWithLatestLast(List<CalendarEvent> events) {
+        Arrays.sort(events.toArray(new CalendarEvent[0]), new Comparator<CalendarEvent>() {
+
+            @Override
+            public int compare(CalendarEvent lhs, CalendarEvent rhs) {
+                return (int) (lhs.getStartTimestamp() - rhs.getStartTimestamp());
+            }
+        });
     }
 
     private List<EventNotificationVM> filterDismissedEvents(List<CalendarEvent> events) {
         List<EventNotificationVM> filteredEvents = new ArrayList<EventNotificationVM>();
         for (CalendarEvent event : events) {
             if (!notificationStatusRegister.isDismissed(event.getId())) {
-                filteredEvents.add(new EventNotificationVM((int) event.getId(), event.getDisplayName(), event.getStartTimestamp(), androidContext));
+                filteredEvents.add(new EventNotificationVM((int) event.getId(), event.getDisplayName(), event.getStartTimestamp(), event.isAllDay(), androidContext));
             }
         }
         return filteredEvents;

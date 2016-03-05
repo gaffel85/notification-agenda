@@ -9,4 +9,6 @@ public interface CalendarEvent {
     long getId();
 
     long getStartTimestamp();
+
+    boolean isAllDay();
 }

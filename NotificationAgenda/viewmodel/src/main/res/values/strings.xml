@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">notificationagendaviewmodel</string>
     <string name="tomorrow_date_prefix">Tomorrow at</string>
+    <string name="allday_display_time">All day</string>
 </resources>

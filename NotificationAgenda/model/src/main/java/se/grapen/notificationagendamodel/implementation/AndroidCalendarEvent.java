@@ -2,6 +2,8 @@ package se.grapen.notificationagendamodel.implementation;
 
 import com.android.calendarcommon2.RecurrenceSet;
 
+import java.util.Date;
+
 import se.grapen.notificationagendamodel.CalendarEvent;
 
 
@@ -68,7 +70,29 @@ public class AndroidCalendarEvent implements CalendarEvent {
         return startTs >= calendar.getTimeInMillis();
     }
 
+    @Override
     public boolean isAllDay() {
         return allDay;
+    }
+
+    @Override
+    public boolean isAllDayToday() {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        calendar.set(java.util.Calendar.MINUTE, 0);
+        calendar.set(java.util.Calendar.SECOND, 0);
+        calendar.set(java.util.Calendar.MILLISECOND, 0);
+        long todayStartTs = calendar.getTimeInMillis();
+        Date date1 = new Date(todayStartTs);
+
+        calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
+        long todayEndTs = calendar.getTimeInMillis();
+        Date date2 = new Date(todayEndTs);
+
+        Date date3 = new Date(startTs);
+        Date date4 = new Date(endTs);
+
+        return startTs <= todayStartTs && endTs >= todayEndTs;
     }
 }

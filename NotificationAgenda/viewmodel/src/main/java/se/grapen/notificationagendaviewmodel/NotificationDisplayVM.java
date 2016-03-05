@@ -48,7 +48,8 @@ public class NotificationDisplayVM {
         List<EventNotificationVM> filteredEvents = new ArrayList<EventNotificationVM>();
         for (CalendarEvent event : events) {
             if (!notificationStatusRegister.isDismissed(event.getId())) {
-                filteredEvents.add(new EventNotificationVM((int) event.getId(), event.getDisplayName(), event.getStartTimestamp(), event.isAllDay(), androidContext));
+                boolean allDay = event.isAllDay() || event.isAllDayToday();
+                filteredEvents.add(new EventNotificationVM((int) event.getId(), event.getDisplayName(), event.getStartTimestamp(), allDay, androidContext));
             }
         }
         return filteredEvents;

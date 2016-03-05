@@ -11,4 +11,6 @@ public interface CalendarEvent {
     long getStartTimestamp();
 
     boolean isAllDay();
+
+    boolean isAllDayToday();
 }

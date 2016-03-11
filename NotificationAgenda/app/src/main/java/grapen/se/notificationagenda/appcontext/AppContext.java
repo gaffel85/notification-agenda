@@ -5,9 +5,9 @@ import android.content.Context;
 import grapen.se.notificationagenda.NotificationDisplayController;
 import grapen.se.notificationagenda.scheduler.Scheduler;
 import se.grapen.notificationagendamodel.AppConfig;
-import se.grapen.notificationagendamodel.CalendarRepository;
+import se.grapen.notificationagendacalendar.CalendarRepository;
 import se.grapen.notificationagendamodel.EventNotificationStatusRegister;
-import se.grapen.notificationagendamodel.implementation.AndroidCalendarRepository;
+import se.grapen.notificationagendacalendar.implementation.AndroidCalendarRepository;
 import se.grapen.notificationagendamodel.implementation.SharedPreferenceAppConfig;
 import se.grapen.notificationagendamodel.implementation.SharedPreferenceNotificationStatusRegister;
 
@@ -38,7 +38,7 @@ public final class AppContext {
 
     public CalendarRepository getCalendarRepository(Context context) {
         if (calendarRepository == null) {
-            calendarRepository = new AndroidCalendarRepository(context.getContentResolver(), getAppConfig(context));
+            calendarRepository = new AndroidCalendarRepository(context.getContentResolver());
         }
         return calendarRepository;
     }
@@ -52,7 +52,7 @@ public final class AppContext {
 
     public NotificationDisplayController getNotificationDisplayController(Context context) {
         if (notificationDisplayController == null) {
-            notificationDisplayController= new NotificationDisplayController(context, getCalendarRepository(context), getNoficationStatusRegister(context));
+            notificationDisplayController= new NotificationDisplayController(context, getCalendarRepository(context), getNoficationStatusRegister(context), getAppConfig(context));
         }
         return notificationDisplayController;
     }

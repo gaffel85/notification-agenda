@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grapen.se.notificationagenda.receivers.DismissNotificationReceiver;
-import se.grapen.notificationagendamodel.CalendarRepository;
+import se.grapen.notificationagendacalendar.CalendarRepository;
+import se.grapen.notificationagendamodel.AppConfig;
 import se.grapen.notificationagendamodel.EventNotificationStatusRegister;
 import se.grapen.notificationagendaview.NotificationDisplay;
 import se.grapen.notificationagendaviewmodel.EventNotificationVM;
@@ -21,8 +22,8 @@ public class NotificationDisplayController {
     private List<EventNotificationVM> events = new ArrayList<EventNotificationVM>();
     private NotificationDisplayVM notificationDisplayVM;
 
-    public NotificationDisplayController(Context androidContext, CalendarRepository calendarRepository, EventNotificationStatusRegister noficationStatusRegister) {
-        this.notificationDisplayVM = new NotificationDisplayVM(androidContext, calendarRepository, noficationStatusRegister);
+    public NotificationDisplayController(Context androidContext, CalendarRepository calendarRepository, EventNotificationStatusRegister noficationStatusRegister, AppConfig config) {
+        this.notificationDisplayVM = new NotificationDisplayVM(androidContext, calendarRepository, noficationStatusRegister, config);
         this.notificationDisplay = new NotificationDisplay(androidContext);
     }
 

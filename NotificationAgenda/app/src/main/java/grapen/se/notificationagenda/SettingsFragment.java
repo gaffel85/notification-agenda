@@ -16,6 +16,7 @@ import java.util.List;
 
 import grapen.se.notificationagenda.appcontext.AppContextPreferenceFragment;
 import grapen.se.notificationagenda.receivers.TimerReceiver;
+import se.grapen.notificationagendamodel.AppConfig;
 
 /**
  * Created by ola on 19/02/16.
@@ -91,19 +92,20 @@ public class SettingsFragment extends AppContextPreferenceFragment implements Ti
         getAppContext().getScheduler(getActivity()).scheduleTimer(getActivity(), TimerReceiver.class);
     }
 
-    public class CalendarFetcherTask extends AsyncTask<Void, Void, List<se.grapen.notificationagendamodel.Calendar>> {
+    public class CalendarFetcherTask extends AsyncTask<Void, Void, List<se.grapen.notificationagendacalendar.Calendar>> {
 
         @Override
-        protected List<se.grapen.notificationagendamodel.Calendar> doInBackground(Void... params) {
-            return getAppContext().getCalendarRepository(getActivity()).findAllCalendars();
+        protected List<se.grapen.notificationagendacalendar.Calendar> doInBackground(Void... params) {
+            AppConfig config = getAppContext().getAppConfig(getActivity());
+            return getAppContext().getCalendarRepository(getActivity()).findAllCalendars(config.calendarsToUseIDs());
         }
 
-        protected void onPostExecute(List<se.grapen.notificationagendamodel.Calendar> calendars) {
+        protected void onPostExecute(List<se.grapen.notificationagendacalendar.Calendar> calendars) {
             updateCalendarList(calendars);
         }
     }
 
-    private void updateCalendarList(List<se.grapen.notificationagendamodel.Calendar> calendars) {
+    private void updateCalendarList(List<se.grapen.notificationagendacalendar.Calendar> calendars) {
         calendarListPref.updateList(calendars);
     }
 }

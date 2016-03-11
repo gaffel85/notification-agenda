@@ -5,10 +5,13 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import se.grapen.notificationagendamodel.CalendarEvent;
-import se.grapen.notificationagendamodel.CalendarRepository;
+import se.grapen.notificationagendacalendar.CalendarEvent;
+import se.grapen.notificationagendacalendar.CalendarRepository;
+import se.grapen.notificationagendamodel.AppConfig;
 import se.grapen.notificationagendamodel.EventNotificationStatusRegister;
 
 /**
@@ -19,19 +22,31 @@ public class NotificationDisplayVM {
     private Context androidContext;
     private CalendarRepository calendarRepository;
     private EventNotificationStatusRegister notificationStatusRegister;
+    private AppConfig config;
 
-    public NotificationDisplayVM(Context androidContext, CalendarRepository calendarRepository, EventNotificationStatusRegister notificationStatusRegister) {
+    public NotificationDisplayVM(Context androidContext, CalendarRepository calendarRepository, EventNotificationStatusRegister notificationStatusRegister, AppConfig config) {
         this.androidContext = androidContext;
         this.calendarRepository = calendarRepository;
         this.notificationStatusRegister = notificationStatusRegister;
 
+        this.config = config;
     }
 
     public List<EventNotificationVM> loadEvents() {
-        List<CalendarEvent> calendarEvents = calendarRepository.findAllEvents();
+        long startTimestamp = getStartTimeFromConfig();
+        Set<Long> calendarIds = config.calendarsToUseIDs();
+        List<CalendarEvent> calendarEvents = calendarRepository.findAllEvents(startTimestamp, calendarIds);
         sortEventWithLatestLast(calendarEvents);
         List<EventNotificationVM> events = filterDismissedEvents(calendarEvents);
         return events;
+    }
+
+    private long getStartTimeFromConfig() {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, config.runCalenderCheckAtHour());
+        calendar.set(java.util.Calendar.MINUTE, config.runCalenderCheckAtMin());
+        return calendar.getTimeInMillis();
     }
 
     private void sortEventWithLatestLast(List<CalendarEvent> events) {

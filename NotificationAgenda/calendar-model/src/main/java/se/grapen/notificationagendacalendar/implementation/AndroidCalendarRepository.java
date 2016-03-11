@@ -1,4 +1,4 @@
-package se.grapen.notificationagendamodel.implementation;
+package se.grapen.notificationagendacalendar.implementation;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import se.grapen.notificationagendamodel.AppConfig;
-import se.grapen.notificationagendamodel.Calendar;
-import se.grapen.notificationagendamodel.CalendarEvent;
-import se.grapen.notificationagendamodel.CalendarRepository;
+import se.grapen.notificationagendacalendar.Calendar;
+import se.grapen.notificationagendacalendar.CalendarEvent;
+import se.grapen.notificationagendacalendar.CalendarRepository;
 
 /**
  * Created by ola on 14/02/16.
@@ -61,21 +60,22 @@ public class AndroidCalendarRepository implements CalendarRepository {
     private static final int EVENT_PROJECTION_DURATION_INDEX = 10;
 
     private ContentResolver contentResolver;
-    private AppConfig config;
 
-    public AndroidCalendarRepository(ContentResolver contentResolver, AppConfig config) {
+    public AndroidCalendarRepository(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
-        this.config = config;
     }
 
     @Override
-    public ArrayList<CalendarEvent> findAllEvents() {
-        List<Calendar> calendars = findAllCalendars();
+    public ArrayList<CalendarEvent> findAllEvents(long startTimestamp, Set<Long> calendarIds) {
+        List<Calendar> calendars = findAllCalendars(calendarIds);
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
-        java.util.Calendar startTime = getStartTimeFromConfig();
+
+        java.util.Calendar startTime = java.util.Calendar.getInstance();
+        startTime.setTimeInMillis(startTimestamp);
         long startTs = startTime.getTimeInMillis();
         startTime.add(java.util.Calendar.HOUR_OF_DAY, 24);
         long endTs = startTime.getTimeInMillis();
+
         for (Calendar calendar : calendars) {
             if (calendar.isSelected()) {
                 events.addAll(fetchEventsForCalendar(calendar.getId(), contentResolver, startTs, endTs));
@@ -84,16 +84,9 @@ public class AndroidCalendarRepository implements CalendarRepository {
         return events;
     }
 
-    private java.util.Calendar getStartTimeFromConfig() {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, config.runCalenderCheckAtHour());
-        calendar.set(java.util.Calendar.MINUTE, config.runCalenderCheckAtMin());
-        return calendar;
-    }
-
     @Override
-    public List<Calendar> findAllCalendars() {
-        Set<Long> calendarsToUseIDs = config.calendarsToUseIDs();
+    public List<Calendar> findAllCalendars(Set<Long> markedCalendarIds) {
+        Set<Long> calendarsToUseIDs = markedCalendarIds;
         List<Calendar> allCalendars = findRawCalendars();
         if (calendarsToUseIDs == null) {
             markVisibleAsSelected(allCalendars);

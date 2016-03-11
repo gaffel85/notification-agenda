@@ -41,8 +41,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
             CalendarContract.Events.RRULE,
             CalendarContract.Events.RDATE,
             CalendarContract.Events.EXDATE,
-            CalendarContract.Events.EXRULE,
-            CalendarContract.Events.DURATION
+            CalendarContract.Events.EXRULE
 
     };
 
@@ -57,7 +56,6 @@ public class AndroidCalendarRepository implements CalendarRepository {
     private static final int EVENT_PROJECTION_RDATE_INDEX = 7;
     private static final int EVENT_PROJECTION_EXDATE_INDEX = 8;
     private static final int EVENT_PROJECTION_EXRULE_INDEX = 9;
-    private static final int EVENT_PROJECTION_DURATION_INDEX = 10;
 
     private ContentResolver contentResolver;
 
@@ -66,7 +64,7 @@ public class AndroidCalendarRepository implements CalendarRepository {
     }
 
     @Override
-    public ArrayList<CalendarEvent> findAllEvents(long startTimestamp, Set<Long> calendarIds) {
+    public List<CalendarEvent> findAllEvents(long startTimestamp, Set<Long> calendarIds) {
         List<Calendar> calendars = findAllCalendars(calendarIds);
         ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
 
@@ -82,6 +80,11 @@ public class AndroidCalendarRepository implements CalendarRepository {
             }
         }
         return events;
+    }
+
+    @Override
+    public List<CalendarEvent> findAllEventsFromVisibleCalendars(long startTimestamp) {
+        return findAllEvents(startTimestamp, null);
     }
 
     @Override
@@ -110,18 +113,6 @@ public class AndroidCalendarRepository implements CalendarRepository {
                 calendar.setSelected();
             }
         }
-    }
-
-    @Override
-    public ArrayList<Calendar> findVisibleCalendars() {
-        ArrayList<Calendar> visibleCalendars = new ArrayList<Calendar>();
-        ArrayList<Calendar> calendars = findRawCalendars();
-        for (Calendar calendar : calendars) {
-            if (calendar.isVisible()) {
-                visibleCalendars.add(calendar);
-            }
-        }
-        return visibleCalendars;
     }
 
     public ArrayList<Calendar> findRawCalendars() {

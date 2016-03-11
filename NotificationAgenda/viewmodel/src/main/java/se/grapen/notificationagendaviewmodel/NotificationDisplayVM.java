@@ -33,12 +33,23 @@ public class NotificationDisplayVM {
     }
 
     public List<EventNotificationVM> loadEvents() {
-        long startTimestamp = getStartTimeFromConfig();
-        Set<Long> calendarIds = config.calendarsToUseIDs();
-        List<CalendarEvent> calendarEvents = calendarRepository.findAllEvents(startTimestamp, calendarIds);
+        List<CalendarEvent> calendarEvents = getCalendarEvents();
         sortEventWithLatestLast(calendarEvents);
         List<EventNotificationVM> events = filterDismissedEvents(calendarEvents);
         return events;
+    }
+
+    private List<CalendarEvent> getCalendarEvents() {
+        long startTimestamp = getStartTimeFromConfig();
+        Set<Long> calendarIds = config.calendarsToUseIDs();
+
+        List<CalendarEvent> calendarEvents = null;
+        if (calendarIds == null) {
+            calendarEvents = calendarRepository.findAllEventsFromVisibleCalendars(startTimestamp);
+        } else {
+            calendarEvents = calendarRepository.findAllEvents(startTimestamp, calendarIds);
+        }
+        return calendarEvents;
     }
 
     private long getStartTimeFromConfig() {

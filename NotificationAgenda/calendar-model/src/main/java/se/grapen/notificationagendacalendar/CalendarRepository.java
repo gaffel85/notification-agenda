@@ -9,9 +9,9 @@ import java.util.Set;
  */
 public interface CalendarRepository {
 
-    List<CalendarEvent> findAllEvents(long startTimestamp, Set<Long> calendarIds);
+    List<CalendarEvent> findAllEvents(long startTimestamp, Set<Long> selectedCalendarIds);
 
-    List<Calendar> findVisibleCalendars();
+    List<CalendarEvent> findAllEventsFromVisibleCalendars(long startTimestamp);
 
     List<Calendar> findAllCalendars(Set<Long> markedCalendarIds);
 }

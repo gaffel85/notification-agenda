@@ -2,35 +2,33 @@ package se.grapen.notificationagendacalendar.implementation;
 
 
 import se.grapen.notificationagendacalendar.Calendar;
+import se.grapen.notificationagendacalendar.dataaccess.CalendarDO;
 
 /**
  * Created by ola on 14/02/16.
  */
 public class AndroidCalendar implements Calendar {
-    private long id;
-    private boolean visible;
-    private boolean selected;
-    private String name;
 
-    public AndroidCalendar(long id, boolean visible, String name) {
-        this.id = id;
-        this.visible = visible;
-        this.name = name;
+    private CalendarDO data;
+    private boolean selected;
+
+    public AndroidCalendar(CalendarDO calendarDO) {
+        this.data = calendarDO;
     }
 
     @Override
     public long getId() {
-        return id;
+        return data.getCalendarID();
     }
 
     @Override
     public boolean isVisible() {
-        return visible;
+        return data.isVisible();
     }
 
     @Override
     public String getName() {
-        return name;
+        return data.getName();
     }
 
     @Override

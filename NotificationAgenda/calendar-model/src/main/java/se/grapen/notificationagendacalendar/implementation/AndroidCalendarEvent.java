@@ -5,6 +5,8 @@ import com.android.calendarcommon2.RecurrenceSet;
 import java.util.Date;
 
 import se.grapen.notificationagendacalendar.CalendarEvent;
+import se.grapen.notificationagendacalendar.dataaccess.CalendarDO;
+import se.grapen.notificationagendacalendar.dataaccess.CalendarEventDO;
 
 
 /**
@@ -12,21 +14,17 @@ import se.grapen.notificationagendacalendar.CalendarEvent;
  */
 public class AndroidCalendarEvent implements CalendarEvent {
 
-    private long eventID;
-    private final String displayName;
-    private boolean allDay;
+
     private long startTs;
     private long endTs;
-    private long calendarID;
+    private CalendarEventDO data;
 
-    public AndroidCalendarEvent(long eventID, long calendarId, String displayName, boolean allDay, long startTs, long endTs, String rrule, String rdate, String exrule, String exdate) {
-        this.eventID = eventID;
-        this.displayName = displayName;
-        this.allDay = allDay;
-        this.startTs = startTs;
-        this.endTs = endTs;
-        this.calendarID = calendarId;
-        takeCareRecurrence(rrule, rdate, exrule, exdate);
+    public AndroidCalendarEvent(CalendarEventDO eventDO) {
+        this.data = eventDO;
+        this.startTs = data.getStartDT();
+        this.endTs = data.getEndDT();
+
+        takeCareRecurrence(data.getRrule(), data.getRdate(), data.getExrule(), data.getExdate());
     }
 
     private void takeCareRecurrence(String rrule, String rdate, String exrule, String exdate) {
@@ -46,12 +44,12 @@ public class AndroidCalendarEvent implements CalendarEvent {
 
     @Override
     public String getDisplayName() {
-        return displayName;
+        return data.getEventTitle();
     }
 
     @Override
     public long getId() {
-        return this.eventID;
+        return data.getEventID();
     }
 
     @Override
@@ -72,7 +70,7 @@ public class AndroidCalendarEvent implements CalendarEvent {
 
     @Override
     public boolean isAllDay() {
-        return allDay;
+        return data.isAllDay();
     }
 
     @Override
